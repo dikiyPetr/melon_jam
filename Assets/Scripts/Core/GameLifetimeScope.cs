@@ -24,5 +24,6 @@ public class GameLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<GlobalConfigs>().AsSelf();
         builder.RegisterComponentInHierarchy<InputManager>().AsSelf();
         builder.RegisterComponentInHierarchy<GameModeManager>().AsSelf();
+        builder.RegisterComponentInHierarchy<MapNavigationController>().AsSelf();
     }
 }

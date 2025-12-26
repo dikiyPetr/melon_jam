@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5714c5510b833c4f9ffa341e139b924, type: 3}
+  m_Name: MapConfig
+  m_EditorClassIdentifier: Assembly-CSharp::MapConfig
+  ColumnsPerRow: 3
+  MapLines:
+  - LineType: 0
+    NodeCount: 1
+    HasGuaranteedConnections: 0
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 2
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 3
+    NodeCount: 1
+    HasGuaranteedConnections: 1
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 1
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 2
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 3
+    NodeCount: 1
+    HasGuaranteedConnections: 1
+  DiagonalConnectionProbability: 0.3
+  NodeTypeWeights:
+  - NodeType: 1
+    Weight: 0.5
+  - NodeType: 2
+    Weight: 0.2
+  - NodeType: 3
+    Weight: 0.15
+  - NodeType: 4
+    Weight: 0.1
+  - NodeType: 5
+    Weight: 0.05
+  CheckpointLineNodeTypeWeights:
+  - NodeType: 6
+    Weight: 0.5
+  - NodeType: 5
+    Weight: 0.5
+  NodeVisualData: {fileID: 11400000, guid: 41afea621fa1f5b429025af114297b93, type: 2}
+  NodeRevealDuration: 0.3
+  ConnectionRevealDuration: 0.2
+  PlayerMovementDuration: 0.7
