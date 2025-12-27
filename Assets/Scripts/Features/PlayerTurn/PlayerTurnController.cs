@@ -6,8 +6,10 @@ public class PlayerTurnController : MonoBehaviour
 {
     [Inject] private MapNavigationController _navigationController;
     [Inject] private AIMotivationPathController _aiPathController;
+    [Inject] private AIMotivationData _motivationData;
 
     private MapData _mapData;
+    private AINodeSelector _nodeSelector;
 
     public event Action OnTurnStarted;
     public event Action OnTurnCompleted;
@@ -22,6 +24,7 @@ public class PlayerTurnController : MonoBehaviour
     public void Initialize(MapData mapData)
     {
         _mapData = mapData;
+        _nodeSelector = new AINodeSelector(_motivationData, _mapData);
 
         if (_navigationController != null)
         {
@@ -74,10 +77,15 @@ public class PlayerTurnController : MonoBehaviour
 
         OnTurnStarted?.Invoke();
 
-        var path = _aiPathController.CurrentPath;
-        var nextNodeId = path[1];
-        var currentNodeId = _mapData.CurrentNodeId;
+        var validNextNodes = _aiPathController.ValidNextNodes;
+        var nextNodeId = _nodeSelector.SelectNextNode(validNextNodes);
 
+        if (string.IsNullOrEmpty(nextNodeId))
+        {
+            return;
+        }
+
+        var currentNodeId = _mapData.CurrentNodeId;
         var fromNode = _mapData.GetNodeById(currentNodeId);
         var toNode = _mapData.GetNodeById(nextNodeId);
 

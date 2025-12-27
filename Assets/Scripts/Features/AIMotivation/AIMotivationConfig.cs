@@ -15,7 +15,7 @@ public class AIMotivationConfig : ScriptableObject
 
     public MotivationStatConfig Wealth = new MotivationStatConfig
     {
-        Name = "Финансы",
+        Name = "Финансы",   
         MaxValue = 100f,
         StartValueMin = 60f,
         StartValueMax = 80f,

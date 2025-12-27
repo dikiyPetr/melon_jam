@@ -10,15 +10,18 @@ public class AIMotivationPathController : MonoBehaviour
     private AIPathfinder _pathfinder;
     private List<string> _currentPath;
     private HashSet<string> _validNextNodes;
+    private HashSet<string> _nodesLeadingToGoal;
 
     public List<string> CurrentPath => _currentPath;
     public HashSet<string> ValidNextNodes => _validNextNodes;
+    public HashSet<string> NodesLeadingToGoal => _nodesLeadingToGoal;
 
     private void Awake()
     {
         DI.Inject(this);
         _currentPath = new List<string>();
         _validNextNodes = new HashSet<string>();
+        _nodesLeadingToGoal = new HashSet<string>();
     }
 
     public void Initialize(MapData mapData)
@@ -33,12 +36,14 @@ public class AIMotivationPathController : MonoBehaviour
         {
             _currentPath.Clear();
             _validNextNodes.Clear();
+            _nodesLeadingToGoal.Clear();
             return;
         }
 
         var desiredNodeType = GetMostDesiredNodeType();
         _currentPath = _pathfinder.FindPathToDesiredNode(currentNodeId, desiredNodeType);
         _validNextNodes = _pathfinder.FindValidNextNodes(currentNodeId, desiredNodeType);
+        _nodesLeadingToGoal = _pathfinder.FindAllNodesLeadingToGoal(currentNodeId, desiredNodeType);
     }
 
     private MapNodeType GetMostDesiredNodeType()

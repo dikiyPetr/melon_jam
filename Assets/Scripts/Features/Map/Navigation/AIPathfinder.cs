@@ -46,6 +46,46 @@ public class AIPathfinder
         return validNodes;
     }
 
+    public HashSet<string> FindAllNodesLeadingToGoal(string currentNodeId, MapNodeType desiredNodeType)
+    {
+        var nodesLeadingToGoal = new HashSet<string>();
+        var currentNode = _mapData.GetNodeById(currentNodeId);
+        if (currentNode == null) return nodesLeadingToGoal;
+
+        var targetCheckpointNode = FindDesiredNodeInNextCheckpoint(currentNode, desiredNodeType);
+        if (targetCheckpointNode == null) return nodesLeadingToGoal;
+
+        var visited = new HashSet<string>();
+        var queue = new Queue<string>();
+        queue.Enqueue(currentNodeId);
+
+        while (queue.Count > 0)
+        {
+            var nodeId = queue.Dequeue();
+            if (visited.Contains(nodeId)) continue;
+            visited.Add(nodeId);
+
+            var node = _mapData.GetNodeById(nodeId);
+            if (node == null) continue;
+
+            var pathToGoal = BuildPath(node, targetCheckpointNode);
+            if (pathToGoal.Count > 0)
+            {
+                nodesLeadingToGoal.Add(nodeId);
+
+                foreach (var connectedNodeId in node.ConnectedNodeIds)
+                {
+                    if (!visited.Contains(connectedNodeId))
+                    {
+                        queue.Enqueue(connectedNodeId);
+                    }
+                }
+            }
+        }
+
+        return nodesLeadingToGoal;
+    }
+
     private MapNodeData FindDesiredNodeInNextCheckpoint(MapNodeData currentNode, MapNodeType desiredNodeType)
     {
         int currentRow = currentNode.GridPosition.y;

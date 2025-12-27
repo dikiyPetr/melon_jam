@@ -67,6 +67,13 @@ public class MapConnectionView : MonoBehaviour
                (_fromNode.Id == toNodeId && _toNode.Id == fromNodeId);
     }
 
+    public bool IsConnectionLeadingToGoal(System.Collections.Generic.HashSet<string> nodesLeadingToGoal)
+    {
+        if (nodesLeadingToGoal == null) return false;
+
+        return nodesLeadingToGoal.Contains(_fromNode.Id) && nodesLeadingToGoal.Contains(_toNode.Id);
+    }
+
     public LineRenderer GetLineRenderer()
     {
         return _lineRenderer;

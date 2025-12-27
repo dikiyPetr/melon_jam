@@ -15,6 +15,8 @@ public class MapView : MonoBehaviour
     [SerializeField] private MapConnectionView _connectionViewPrefab;
     [SerializeField] private Vector2 _nodeSpacing = new Vector2(2f, 1.5f);
     [SerializeField] private MapNodeTypeMenuController _menuController;
+    [SerializeField] private NodeEventManager _nodeEventManager;
+    [SerializeField] private NodeEventPopup _nodeEventPopup;
     [SerializeField] private Camera _mapCamera;
     [SerializeField] private float _cameraScrollSpeed = 5f;
     [SerializeField] private float _cameraBorderPadding = 1f;
@@ -53,6 +55,16 @@ public class MapView : MonoBehaviour
         {
             _menuController.Initialize(_aiPathController, _mapConfig.NodeVisualData);
             _menuController.OnNodeTypeSelected += HandleNodeTypeSelected;
+        }
+
+        if (_nodeEventManager != null)
+        {
+            _nodeEventManager.Initialize();
+        }
+
+        if (_nodeEventPopup != null)
+        {
+            _nodeEventPopup.OnChoiceMade += HandleEventChoiceMade;
         }
     }
 
@@ -276,6 +288,32 @@ public class MapView : MonoBehaviour
         {
             _playerTurnController.NotifyTurnStateChanged();
         }
+
+        ShowNodeEvent(nodeData);
+    }
+
+    private void ShowNodeEvent(MapNodeData nodeData)
+    {
+        if (_nodeEventManager == null || _nodeEventPopup == null || nodeData == null) return;
+
+        var nodeEvent = _nodeEventManager.GetEventForNode(nodeData.NodeType);
+        if (nodeEvent != null)
+        {
+            _nodeEventPopup.Show(nodeEvent);
+        }
+    }
+
+    private void HandleEventChoiceMade(NodeEventChoice choice)
+    {
+        if (_nodeEventManager != null)
+        {
+            _nodeEventManager.ApplyEventChoice(choice);
+        }
+
+        if (_playerTurnController != null)
+        {
+            _playerTurnController.NotifyTurnStateChanged();
+        }
     }
 
     private void UpdateAllVisuals()
@@ -286,29 +324,21 @@ public class MapView : MonoBehaviour
         }
 
         string currentNodeId = _mapData?.CurrentNodeId;
-        var aiPath = _aiPathController?.CurrentPath;
+        var nodesLeadingToGoal = _aiPathController?.NodesLeadingToGoal;
         var validNextNodes = _aiPathController?.ValidNextNodes;
 
         foreach (var connectionView in _connectionViews)
         {
-            bool isOnAIPath = IsConnectionOnAIPath(connectionView, aiPath);
-            connectionView.UpdateVisuals(currentNodeId, isOnAIPath, validNextNodes);
+            bool leadsToGoal = IsConnectionLeadsToGoal(connectionView, nodesLeadingToGoal);
+            connectionView.UpdateVisuals(currentNodeId, leadsToGoal, validNextNodes);
         }
     }
 
-    private bool IsConnectionOnAIPath(MapConnectionView connection, List<string> aiPath)
+    private bool IsConnectionLeadsToGoal(MapConnectionView connection, HashSet<string> nodesLeadingToGoal)
     {
-        if (aiPath == null || aiPath.Count < 2) return false;
+        if (nodesLeadingToGoal == null || nodesLeadingToGoal.Count == 0) return false;
 
-        for (int i = 0; i < aiPath.Count - 1; i++)
-        {
-            if (connection.IsConnectionBetween(aiPath[i], aiPath[i + 1]))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return connection.IsConnectionLeadingToGoal(nodesLeadingToGoal);
     }
 
     private void HandleCameraScroll()
@@ -402,6 +432,11 @@ public class MapView : MonoBehaviour
         if (_playerTurnController != null)
         {
             _playerTurnController.OnPlayerMovementRequested -= HandlePlayerMovementRequested;
+        }
+
+        if (_nodeEventPopup != null)
+        {
+            _nodeEventPopup.OnChoiceMade -= HandleEventChoiceMade;
         }
 
         ClearMap();
