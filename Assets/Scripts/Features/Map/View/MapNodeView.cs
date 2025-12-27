@@ -42,8 +42,8 @@ public class MapNodeView : MonoBehaviour
 
 
         _visitedIndicator.SetActive(NodeData.IsVisited);
-        
-        _collider.enabled = NodeData.IsAvailable && !NodeData.IsVisited;
+
+        _collider.enabled = !NodeData.IsVisited;
     }
 
     public void HandleClick()
@@ -56,7 +56,7 @@ public class MapNodeView : MonoBehaviour
 
     public void HandleMouseEnter()
     {
-        if (NodeData.IsAvailable && !NodeData.IsVisited)
+        if (!NodeData.IsVisited)
         {
             _isHovered = true;
             OnNodeHoverEnter?.Invoke(NodeData);

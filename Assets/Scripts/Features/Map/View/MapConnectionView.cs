@@ -11,6 +11,7 @@ public class MapConnectionView : MonoBehaviour
     public Color ActiveColor = Color.white;
     public Color InactiveColor = Color.gray;
     public Color VisitedColor = new Color(0.3f, 0.8f, 1f, 1f);
+    public Color AIPathColor = new Color(1f, 0.8f, 0.2f, 1f);
 
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class MapConnectionView : MonoBehaviour
         _lineRenderer.SetPosition(1, toPosition);
     }
 
-    public void UpdateVisuals(string currentNodeId)
+    public void UpdateVisuals(string currentNodeId, bool isOnAIPath = false, System.Collections.Generic.HashSet<string> validNextNodes = null)
     {
         if (_fromNode == null || _toNode == null || _lineRenderer == null) return;
 
@@ -38,11 +39,16 @@ public class MapConnectionView : MonoBehaviour
         {
             color = VisitedColor;
         }
+        else if (isOnAIPath)
+        {
+            color = AIPathColor;
+        }
         else
         {
             bool isActive = !string.IsNullOrEmpty(currentNodeId) &&
                             _fromNode.Id == currentNodeId &&
-                            _toNode.IsAvailable;
+                            _toNode.IsAvailable &&
+                            (validNextNodes == null || validNextNodes.Contains(_toNode.Id));
             color = isActive ? ActiveColor : InactiveColor;
         }
 

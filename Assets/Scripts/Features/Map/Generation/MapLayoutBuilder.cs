@@ -38,10 +38,14 @@ public class MapLayoutBuilder
 
         int startColumn = lineConfig.NodeCount == 1 ? _config.ColumnsPerRow / 2 : 0;
 
+        List<MapNodeType> nodeTypes = lineConfig.LineType == MapLineType.CheckpointLine
+            ? GetShuffledCheckpointNodeTypes(lineConfig.NodeCount)
+            : null;
+
         for (int i = 0; i < lineConfig.NodeCount; i++)
         {
             int column = lineConfig.NodeCount == 1 ? startColumn : i;
-            MapNodeType nodeType = GetNodeTypeForLine(lineConfig.LineType);
+            MapNodeType nodeType = nodeTypes != null ? nodeTypes[i] : GetNodeTypeForLine(lineConfig.LineType);
 
             var node = new MapNodeData(
                 GenerateNodeId(column, _currentRow),
@@ -63,7 +67,7 @@ public class MapLayoutBuilder
             }
             else if (lineConfig.HasGuaranteedConnections)
             {
-                _connectionBuilder.ConnectCheckpointLine(previousRow, currentRowNodes);
+                _connectionBuilder.ConnectGuaranteedConnections(previousRow, currentRowNodes);
             }
             else
             {
@@ -102,7 +106,6 @@ public class MapLayoutBuilder
             case MapLineType.RestLine:
                 return MapNodeType.Rest;
             case MapLineType.CheckpointLine:
-                // todo добавить выбор из пула
                 return MapNodeType.Shop;
             case MapLineType.Default:
             default:
@@ -129,6 +132,21 @@ public class MapLayoutBuilder
         }
 
         return new List<MapNodeData>();
+    }
+
+    private List<MapNodeType> GetShuffledCheckpointNodeTypes(int count)
+    {
+        List<MapNodeType> availableTypes = new List<MapNodeType>(_config.CheckpointNodeTypes);
+        List<MapNodeType> result = new List<MapNodeType>();
+
+        for (int i = 0; i < count && availableTypes.Count > 0; i++)
+        {
+            int randomIndex = Random.Range(0, availableTypes.Count);
+            result.Add(availableTypes[randomIndex]);
+            availableTypes.RemoveAt(randomIndex);
+        }
+
+        return result;
     }
 
     private string GenerateNodeId(int col, int row)

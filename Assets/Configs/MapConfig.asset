@@ -47,23 +47,10 @@ MonoBehaviour:
   - LineType: 3
     NodeCount: 1
     HasGuaranteedConnections: 1
-  DiagonalConnectionProbability: 0.3
-  NodeTypeWeights:
-  - NodeType: 1
-    Weight: 0.5
-  - NodeType: 2
-    Weight: 0.2
-  - NodeType: 3
-    Weight: 0.15
-  - NodeType: 4
-    Weight: 0.1
-  - NodeType: 5
-    Weight: 0.05
-  CheckpointLineNodeTypeWeights:
-  - NodeType: 6
-    Weight: 0.5
-  - NodeType: 5
-    Weight: 0.5
+  CheckpointNodeTypes: 020000000400000006000000
+  SelectableNodeTypes: 0200000003000000040000000500000006000000
+  NodeTypeChoicesCount: 2
+  DiagonalConnectionProbability: 1
   NodeVisualData: {fileID: 11400000, guid: 41afea621fa1f5b429025af114297b93, type: 2}
   NodeRevealDuration: 0.3
   ConnectionRevealDuration: 0.2

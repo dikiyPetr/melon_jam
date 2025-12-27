@@ -14,6 +14,7 @@ public class MapView : MonoBehaviour
     [SerializeField] private MapNodeView _nodeViewPrefab;
     [SerializeField] private MapConnectionView _connectionViewPrefab;
     [SerializeField] private Vector2 _nodeSpacing = new Vector2(2f, 1.5f);
+    [SerializeField] private MapNodeTypeMenuController _menuController;
     [SerializeField] private Camera _mapCamera;
     [SerializeField] private float _cameraScrollSpeed = 5f;
     [SerializeField] private float _cameraBorderPadding = 1f;
@@ -30,6 +31,8 @@ public class MapView : MonoBehaviour
     private bool _mapBoundsCalculated;
 
     [Inject] private MapNavigationController _navigationController;
+    [Inject] private AIMotivationPathController _aiPathController;
+    [Inject] private PlayerTurnController _playerTurnController;
 
     private void Awake()
     {
@@ -44,6 +47,12 @@ public class MapView : MonoBehaviour
         if (_mapCamera == null)
         {
             _mapCamera = Camera.main;
+        }
+
+        if (_menuController != null)
+        {
+            _menuController.Initialize(_aiPathController, _mapConfig.NodeVisualData);
+            _menuController.OnNodeTypeSelected += HandleNodeTypeSelected;
         }
     }
 
@@ -109,14 +118,19 @@ public class MapView : MonoBehaviour
         ClearMap();
 
         _mapData = _mapGenerator.GenerateMap(_mapConfig);
-
+        
         CreateConnections();
         CreateNodes();
 
         if (_navigationController != null)
         {
-            _navigationController.Initialize(_mapData);
+            _navigationController.Initialize(_mapData, _mapConfig);
             _navigationController.OnNodeSelected += HandleNodeSelected;
+        }
+
+        if (_aiPathController != null)
+        {
+            _aiPathController.Initialize(_mapData);
         }
 
         if (_playerIcon != null)
@@ -125,11 +139,17 @@ public class MapView : MonoBehaviour
             if (startNode != null)
             {
                 _playerIcon.position = CalculateNodePosition(startNode.GridPosition);
+
+                if (_aiPathController != null)
+                {
+                    _aiPathController.UpdatePath(startNode.Id);
+                }
             }
         }
 
         CalculateMapBounds();
         UpdateAllVisuals();
+        _playerTurnController.Initialize(_mapData);
     }
 
     private void CreateNodes()
@@ -143,6 +163,11 @@ public class MapView : MonoBehaviour
             nodeView.Initialize(nodeData, _mapConfig.NodeVisualData);
 
             nodeView.OnNodeClicked += HandleNodeClicked;
+
+            if (_menuController != null)
+            {
+                _menuController.SubscribeToNodeEvents(nodeView);
+            }
 
             _nodeViews[nodeData.Id] = nodeView;
         }
@@ -181,10 +206,24 @@ public class MapView : MonoBehaviour
 
     private void HandleNodeClicked(MapNodeData nodeData)
     {
+        if (_aiPathController != null)
+        {
+            var validNextNodes = _aiPathController.ValidNextNodes;
+            if (validNextNodes != null && validNextNodes.Contains(nodeData.Id) && !nodeData.HasSelectedType)
+            {
+                return;
+            }
+        }
+
         if (_navigationController != null)
         {
             _navigationController.SelectNode(nodeData.Id);
         }
+    }
+
+    private void HandleNodeTypeSelected()
+    {
+        UpdateAllVisuals();
     }
 
     private void HandleNodeSelected(MapNodeData nodeData)
@@ -234,6 +273,11 @@ public class MapView : MonoBehaviour
             _navigationController.MoveToNode(nodeData.Id);
         }
 
+        if (_aiPathController != null)
+        {
+            _aiPathController.UpdatePath(nodeData.Id);
+        }
+
         UpdateAllVisuals();
     }
 
@@ -245,10 +289,29 @@ public class MapView : MonoBehaviour
         }
 
         string currentNodeId = _mapData?.CurrentNodeId;
+        var aiPath = _aiPathController?.CurrentPath;
+        var validNextNodes = _aiPathController?.ValidNextNodes;
+
         foreach (var connectionView in _connectionViews)
         {
-            connectionView.UpdateVisuals(currentNodeId);
+            bool isOnAIPath = IsConnectionOnAIPath(connectionView, aiPath);
+            connectionView.UpdateVisuals(currentNodeId, isOnAIPath, validNextNodes);
         }
+    }
+
+    private bool IsConnectionOnAIPath(MapConnectionView connection, List<string> aiPath)
+    {
+        if (aiPath == null || aiPath.Count < 2) return false;
+
+        for (int i = 0; i < aiPath.Count - 1; i++)
+        {
+            if (connection.IsConnectionBetween(aiPath[i], aiPath[i + 1]))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void HandleCameraScroll()
@@ -321,6 +384,12 @@ public class MapView : MonoBehaviour
             if (nodeView != null)
             {
                 nodeView.OnNodeClicked -= HandleNodeClicked;
+
+                if (_menuController != null)
+                {
+                    _menuController.UnsubscribeFromNodeEvents(nodeView);
+                }
+
                 Destroy(nodeView.gameObject);
             }
         }
@@ -345,6 +414,11 @@ public class MapView : MonoBehaviour
         if (_navigationController != null)
         {
             _navigationController.OnNodeSelected -= HandleNodeSelected;
+        }
+
+        if (_menuController != null)
+        {
+            _menuController.OnNodeTypeSelected -= HandleNodeTypeSelected;
         }
 
         ClearMap();

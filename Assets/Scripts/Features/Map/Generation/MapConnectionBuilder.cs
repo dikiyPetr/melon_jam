@@ -54,7 +54,7 @@ public class MapConnectionBuilder
         }
     }
 
-    public void ConnectCheckpointLine(List<MapNodeData> previousRow, List<MapNodeData> checkpointRow)
+    public void ConnectGuaranteedConnections(List<MapNodeData> previousRow, List<MapNodeData> checkpointRow)
     {
         foreach (var checkpointNode in checkpointRow)
         {

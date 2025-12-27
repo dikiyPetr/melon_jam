@@ -25,5 +25,10 @@ public class GameLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<InputManager>().AsSelf();
         builder.RegisterComponentInHierarchy<GameModeManager>().AsSelf();
         builder.RegisterComponentInHierarchy<MapNavigationController>().AsSelf();
+        builder.RegisterComponentInHierarchy<AIMotivationController>().AsSelf();
+        builder.RegisterComponentInHierarchy<AIMotivationPathController>().AsSelf();
+        builder.RegisterComponentInHierarchy<PlayerTurnController>().AsSelf();
+
+        builder.Register<AIMotivationData>(Lifetime.Singleton).AsSelf();
     }
 }

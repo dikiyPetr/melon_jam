@@ -8,6 +8,24 @@ public class MapConfig : ScriptableObject
 
     public List<MapLineConfig> MapLines = new List<MapLineConfig> { };
 
+    [Header("Checkpoint Settings")] public List<MapNodeType> CheckpointNodeTypes = new List<MapNodeType>
+    {
+        MapNodeType.Combat,
+        MapNodeType.Shop,
+        MapNodeType.Treasure
+    };
+
+    [Header("Node Selection Settings")] public List<MapNodeType> SelectableNodeTypes = new List<MapNodeType>
+    {
+        MapNodeType.Combat,
+        MapNodeType.Event,
+        MapNodeType.Shop,
+        MapNodeType.Rest,
+        MapNodeType.Treasure
+    };
+
+    public int NodeTypeChoicesCount = 2;
+
     [Header("Connections")] [Range(0f, 1f)]
     public float DiagonalConnectionProbability = 0.3f;
 

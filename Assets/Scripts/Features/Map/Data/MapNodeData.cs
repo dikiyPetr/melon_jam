@@ -11,6 +11,8 @@ public class MapNodeData
     public List<string> ConnectedNodeIds;
     public bool IsVisited;
     public bool IsAvailable;
+    public List<MapNodeType> AvailableNodeTypes;
+    public bool HasSelectedType;
 
     public MapNodeData(string id, MapNodeType nodeType, Vector2Int gridPosition)
     {
@@ -20,5 +22,19 @@ public class MapNodeData
         ConnectedNodeIds = new List<string>();
         IsVisited = false;
         IsAvailable = false;
+        AvailableNodeTypes = new List<MapNodeType>();
+        HasSelectedType = nodeType != MapNodeType.Unknown;
+    }
+
+    public void SetNodeType(MapNodeType type)
+    {
+        NodeType = type;
+        HasSelectedType = true;
+    }
+
+    public void SetAvailableTypes(List<MapNodeType> types)
+    {
+        AvailableNodeTypes = new List<MapNodeType>(types);
+        HasSelectedType = NodeType != MapNodeType.Unknown;
     }
 }
