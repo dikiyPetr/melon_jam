@@ -8,11 +8,11 @@ public class PlayerTurnController : MonoBehaviour
     [Inject] private AIMotivationPathController _aiPathController;
 
     private MapData _mapData;
-    private bool _isAnimating;
 
     public event Action OnTurnStarted;
     public event Action OnTurnCompleted;
     public event Action OnTurnStateChanged;
+    public event Action<MapNodeData, MapNodeData> OnPlayerMovementRequested;
 
     private void Awake()
     {
@@ -33,7 +33,6 @@ public class PlayerTurnController : MonoBehaviour
 
     public bool CanMakeNextTurn()
     {
-        if (_isAnimating) return false;
         if (_aiPathController == null || _navigationController == null) return false;
 
         var path = _aiPathController.CurrentPath;
@@ -77,12 +76,20 @@ public class PlayerTurnController : MonoBehaviour
 
         var path = _aiPathController.CurrentPath;
         var nextNodeId = path[1];
+        var currentNodeId = _mapData.CurrentNodeId;
 
-        if (_navigationController.SelectNode(nextNodeId))
+        var fromNode = _mapData.GetNodeById(currentNodeId);
+        var toNode = _mapData.GetNodeById(nextNodeId);
+
+        if (fromNode != null && toNode != null)
         {
-            _isAnimating = true;
-            OnTurnStateChanged?.Invoke();
+            OnPlayerMovementRequested?.Invoke(fromNode, toNode);
         }
+    }
+
+    public void NotifyTurnStateChanged()
+    {
+        OnTurnStateChanged?.Invoke();
     }
 
     private void HandleNodeSelected(MapNodeData nodeData)
@@ -92,7 +99,6 @@ public class PlayerTurnController : MonoBehaviour
 
     private void HandleNodeReached(MapNodeData nodeData)
     {
-        _isAnimating = false;
         OnTurnCompleted?.Invoke();
         OnTurnStateChanged?.Invoke();
     }

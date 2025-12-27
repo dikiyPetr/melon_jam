@@ -93,12 +93,6 @@ public class MapView : MonoBehaviour
 
                 if (Mouse.current.leftButton.wasPressedThisFrame)
                 {
-                    PrintNodeInfo(nodeView.NodeData);
-                }
-
-                // todo пока дебаг 
-                if (Mouse.current.rightButton.wasPressedThisFrame)
-                {
                     nodeView.HandleClick();
                 }
             }
@@ -118,14 +112,13 @@ public class MapView : MonoBehaviour
         ClearMap();
 
         _mapData = _mapGenerator.GenerateMap(_mapConfig);
-        
+
         CreateConnections();
         CreateNodes();
 
         if (_navigationController != null)
         {
             _navigationController.Initialize(_mapData, _mapConfig);
-            _navigationController.OnNodeSelected += HandleNodeSelected;
         }
 
         if (_aiPathController != null)
@@ -150,6 +143,7 @@ public class MapView : MonoBehaviour
         CalculateMapBounds();
         UpdateAllVisuals();
         _playerTurnController.Initialize(_mapData);
+        _playerTurnController.OnPlayerMovementRequested += HandlePlayerMovementRequested;
     }
 
     private void CreateNodes()
@@ -224,30 +218,28 @@ public class MapView : MonoBehaviour
     private void HandleNodeTypeSelected()
     {
         UpdateAllVisuals();
+
+        if (_playerTurnController != null)
+        {
+            _playerTurnController.NotifyTurnStateChanged();
+        }
     }
 
-    private void HandleNodeSelected(MapNodeData nodeData)
+    private void HandlePlayerMovementRequested(MapNodeData fromNode, MapNodeData toNode)
     {
-        if (_playerIcon != null && _animationController != null)
-        {
-            var currentNode = _mapData.GetCurrentNode();
-            if (currentNode != null)
-            {
-                AnimatePathConnection(currentNode.Id, nodeData.Id);
-            }
+        if (_playerIcon == null || _animationController == null) return;
 
-            Vector3 targetPosition = CalculateNodePosition(nodeData.GridPosition);
-            _animationController.AnimatePlayerMovement(
-                _playerIcon,
-                _playerIcon.position,
-                targetPosition,
-                () => OnPlayerMovementComplete(nodeData)
-            );
-        }
-        else
-        {
-            OnPlayerMovementComplete(nodeData);
-        }
+        Vector3 fromPosition = CalculateNodePosition(fromNode.GridPosition);
+        Vector3 toPosition = CalculateNodePosition(toNode.GridPosition);
+
+        AnimatePathConnection(fromNode.Id, toNode.Id);
+
+        _animationController.AnimatePlayerMovement(
+            _playerIcon,
+            fromPosition,
+            toPosition,
+            () => OnPlayerMovementComplete(toNode)
+        );
     }
 
     private void AnimatePathConnection(string fromNodeId, string toNodeId)
@@ -279,6 +271,11 @@ public class MapView : MonoBehaviour
         }
 
         UpdateAllVisuals();
+
+        if (_playerTurnController != null)
+        {
+            _playerTurnController.NotifyTurnStateChanged();
+        }
     }
 
     private void UpdateAllVisuals()
@@ -363,20 +360,6 @@ public class MapView : MonoBehaviour
         _mapBoundsCalculated = true;
     }
 
-    private void PrintNodeInfo(MapNodeData nodeData)
-    {
-        if (nodeData == null) return;
-
-        Debug.Log($"=== Node Info ===\n" +
-                  $"ID: {nodeData.Id}\n" +
-                  $"Type: {nodeData.NodeType}\n" +
-                  $"Position: ({nodeData.GridPosition.x}, {nodeData.GridPosition.y})\n" +
-                  $"Is Available: {nodeData.IsAvailable}\n" +
-                  $"Is Visited: {nodeData.IsVisited}\n" +
-                  $"Connected Nodes: {string.Join(", ", nodeData.ConnectedNodeIds)}\n" +
-                  $"================");
-    }
-
     private void ClearMap()
     {
         foreach (var nodeView in _nodeViews.Values)
@@ -411,14 +394,14 @@ public class MapView : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (_navigationController != null)
-        {
-            _navigationController.OnNodeSelected -= HandleNodeSelected;
-        }
-
         if (_menuController != null)
         {
             _menuController.OnNodeTypeSelected -= HandleNodeTypeSelected;
+        }
+
+        if (_playerTurnController != null)
+        {
+            _playerTurnController.OnPlayerMovementRequested -= HandlePlayerMovementRequested;
         }
 
         ClearMap();

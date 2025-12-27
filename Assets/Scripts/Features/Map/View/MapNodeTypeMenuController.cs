@@ -4,6 +4,7 @@ using UnityEngine;
 public class MapNodeTypeMenuController : MonoBehaviour
 {
     [SerializeField] private NodeTypeSelectionMenu _nodeTypeMenu;
+    [SerializeField] private NodeTypeSelectionPopup _nodeTypePopup;
 
     private AIMotivationPathController _aiPathController;
 
@@ -17,6 +18,12 @@ public class MapNodeTypeMenuController : MonoBehaviour
         {
             _nodeTypeMenu.Initialize(visualData);
             _nodeTypeMenu.OnNodeTypeSelected += HandleNodeTypeSelected;
+        }
+
+        if (_nodeTypePopup != null)
+        {
+            _nodeTypePopup.Initialize(visualData);
+            _nodeTypePopup.OnNodeTypeSelected += HandleNodeTypeSelected;
         }
     }
 
@@ -42,7 +49,14 @@ public class MapNodeTypeMenuController : MonoBehaviour
 
     private void HandleNodeClicked(MapNodeData nodeData)
     {
-       // todo при клике нужно вызывать новое контекстное меню с выбором точки интереса
+        if (_aiPathController != null && _nodeTypePopup != null)
+        {
+            var validNextNodes = _aiPathController.ValidNextNodes;
+            if (validNextNodes != null && validNextNodes.Contains(nodeData.Id) && !nodeData.HasSelectedType)
+            {
+                _nodeTypePopup.Show(nodeData);
+            }
+        }
     }
 
     private void HandleNodeHoverEnter(MapNodeData nodeData)
@@ -71,6 +85,11 @@ public class MapNodeTypeMenuController : MonoBehaviour
         if (_nodeTypeMenu != null)
         {
             _nodeTypeMenu.OnNodeTypeSelected -= HandleNodeTypeSelected;
+        }
+
+        if (_nodeTypePopup != null)
+        {
+            _nodeTypePopup.OnNodeTypeSelected -= HandleNodeTypeSelected;
         }
     }
 }
