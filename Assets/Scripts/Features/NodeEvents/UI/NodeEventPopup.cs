@@ -14,11 +14,6 @@ public class NodeEventPopup : MonoBehaviour
 
     private NodeEvent _currentEvent;
 
-    private void Awake()
-    {
-        Hide();
-    }
-
     public void Show(NodeEvent nodeEvent)
     {
         if (nodeEvent == null) return;

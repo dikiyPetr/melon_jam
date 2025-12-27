@@ -82,6 +82,7 @@ public class PlayerTurnController : MonoBehaviour
 
         if (string.IsNullOrEmpty(nextNodeId))
         {
+            Debug.Log('d');
             return;
         }
 
