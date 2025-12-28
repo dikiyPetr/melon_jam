@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ebe26a1194c89147b84f99713b82844, type: 3}
+  m_Name: RewardConfig
+  m_EditorClassIdentifier: Assembly-CSharp::RewardConfig
+  SmallMotivation: 3
+  MediumMotivation: 5
+  LargeMotivation: 8
+  SmallHeal: 30
+  MediumHeal: 50
+  LargeHeal: 80
+  SmallAttackIncrease: 1
+  MediumAttackIncrease: 3
+  LargeAttackIncrease: 5
+  SmallGold: 30
+  MediumGold: 50
+  LargeGold: 100
