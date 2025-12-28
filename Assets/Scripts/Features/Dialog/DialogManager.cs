@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VContainer;
@@ -6,7 +7,10 @@ public class DialogManager : MonoBehaviour
 {
     [SerializeField] private DialogPanel _dialogPanel;
 
-    [Inject] private NodeEventManager _nodeEventManager;
+    [SerializeField]  private NodeEventManager _nodeEventManager;
+    [Inject] private PlayerHolder _playerHolder;
+
+    public event Action<NodeEventChoice> OnChoiceMade;
 
     private void Awake()
     {
@@ -20,22 +24,9 @@ public class DialogManager : MonoBehaviour
 
     public void ShowNodeEvent(NodeEvent nodeEvent)
     {
-        if (nodeEvent == null || _dialogPanel == null) return;
+        if (nodeEvent == null || _dialogPanel == null || _playerHolder == null) return;
 
-        string title = nodeEvent.EventName;
-        string description = nodeEvent.EventText;
-        List<DialogButtonData> buttons = new List<DialogButtonData>();
-
-        foreach (var choice in nodeEvent.Choices)
-        {
-            var buttonData = new DialogButtonData(
-                choice.ButtonText,
-                () => OnChoiceSelected(choice)
-            );
-            buttons.Add(buttonData);
-        }
-
-        _dialogPanel.Show(title, description, buttons);
+        _dialogPanel.ShowNodeEvent(nodeEvent, _playerHolder, OnChoiceSelected);
     }
 
     public void ShowDialog(string title, string description, List<DialogButtonData> buttons)
@@ -60,6 +51,7 @@ public class DialogManager : MonoBehaviour
             _nodeEventManager.ApplyEventChoice(choice);
         }
 
+        OnChoiceMade?.Invoke(choice);
         HideDialog();
     }
 }

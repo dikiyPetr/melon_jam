@@ -19,7 +19,7 @@ public class DialogButton : MonoBehaviour
         }
     }
 
-    public void Setup(string text, Action onClick)
+    public void Setup(string text, Action onClick, bool isInteractable = true)
     {
         if (_buttonText != null)
         {
@@ -32,6 +32,7 @@ public class DialogButton : MonoBehaviour
         {
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(OnButtonClick);
+            _button.interactable = isInteractable;
         }
     }
 

@@ -14,6 +14,12 @@ public class MapNodeVisualData : ScriptableObject
         var typeSprite = NodeTypeSprites.Find(x => x.NodeType == nodeType);
         return typeSprite != null ? typeSprite.Sprite : DefaultNodeSprite;
     }
+
+    public string GetDescriptionForNodeType(MapNodeType nodeType)
+    {
+        var typeSprite = NodeTypeSprites.Find(x => x.NodeType == nodeType);
+        return typeSprite != null ? typeSprite.Description : "";
+    }
 }
 
 [Serializable]
@@ -21,4 +27,5 @@ public class NodeTypeSprite
 {
     public MapNodeType NodeType;
     public Sprite Sprite;
+    public string Description;
 }

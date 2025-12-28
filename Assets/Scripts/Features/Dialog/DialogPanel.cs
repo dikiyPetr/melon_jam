@@ -42,6 +42,26 @@ public class DialogPanel : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void ShowNodeEvent(NodeEvent nodeEvent, PlayerHolder playerHolder, Action<NodeEventChoice> onChoiceSelected)
+    {
+        if (nodeEvent == null) return;
+
+        List<DialogButtonData> buttons = new List<DialogButtonData>();
+
+        foreach (var choice in nodeEvent.Choices)
+        {
+            bool isInteractable = choice.CanChoose(playerHolder);
+            DialogButtonData buttonData = new DialogButtonData(
+                choice.ButtonText,
+                () => onChoiceSelected?.Invoke(choice),
+                isInteractable
+            );
+            buttons.Add(buttonData);
+        }
+
+        Show(nodeEvent.EventName, nodeEvent.EventText, buttons);
+    }
+
     public void Hide()
     {
         ClearButtons();
@@ -66,7 +86,7 @@ public class DialogPanel : MonoBehaviour
         foreach (var buttonData in buttons)
         {
             DialogButton button = Instantiate(_buttonPrefab, _buttonsContainer);
-            button.Setup(buttonData.Text, buttonData.OnClick);
+            button.Setup(buttonData.Text, buttonData.OnClick, buttonData.IsInteractable);
             _activeButtons.Add(button);
         }
     }
@@ -89,10 +109,12 @@ public class DialogButtonData
 {
     public string Text;
     public Action OnClick;
+    public bool IsInteractable;
 
-    public DialogButtonData(string text, Action onClick)
+    public DialogButtonData(string text, Action onClick, bool isInteractable = true)
     {
         Text = text;
         OnClick = onClick;
+        IsInteractable = isInteractable;
     }
 }

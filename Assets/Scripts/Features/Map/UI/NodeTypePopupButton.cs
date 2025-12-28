@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 public class NodeTypePopupButton : MonoBehaviour
 {
     [SerializeField] private Image _iconImage;
+    [SerializeField] private TextMeshProUGUI _titleText;
+    [SerializeField] private TextMeshProUGUI _descriptionText;
 
     private MapNodeType _nodeType;
     private Button _button;
@@ -16,7 +19,7 @@ public class NodeTypePopupButton : MonoBehaviour
         _button.onClick.AddListener(OnClick);
     }
 
-    public void Initialize(MapNodeType nodeType, Sprite icon, NodeTypeSelectionPopup popup)
+    public void Initialize(MapNodeType nodeType, Sprite icon, string description, NodeTypeSelectionPopup popup)
     {
         _nodeType = nodeType;
         _popup = popup;
@@ -24,6 +27,16 @@ public class NodeTypePopupButton : MonoBehaviour
         if (_iconImage != null)
         {
             _iconImage.sprite = icon;
+        }
+
+        if (_titleText != null)
+        {
+            _titleText.text = nodeType.ToString();
+        }
+
+        if (_descriptionText != null)
+        {
+            _descriptionText.text = description;
         }
 
         gameObject.SetActive(true);

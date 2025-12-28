@@ -67,7 +67,8 @@ public class NodeTypeSelectionPopup : MonoBehaviour
         {
             var nodeType = availableTypes[i];
             var sprite = _visualData.GetSpriteForNodeType(nodeType);
-            _nodeTypeButtons[buttonIndex].Initialize(nodeType, sprite, this);
+            var description = _visualData.GetDescriptionForNodeType(nodeType);
+            _nodeTypeButtons[buttonIndex].Initialize(nodeType, sprite, description, this);
             buttonIndex++;
         }
 

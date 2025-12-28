@@ -15,8 +15,8 @@ public class MapView : MonoBehaviour
     [SerializeField] private MapConnectionView _connectionViewPrefab;
     [SerializeField] private Vector2 _nodeSpacing = new Vector2(2f, 1.5f);
     [SerializeField] private MapNodeTypeMenuController _menuController;
-    [SerializeField] private NodeEventManager _nodeEventManager;
-    [SerializeField] private NodeEventPopup _nodeEventPopup;
+    [Inject] private NodeEventManager _nodeEventManager;
+    [Inject] private DialogManager _dialogManager;
     [SerializeField] private Camera _mapCamera;
     [SerializeField] private float _cameraScrollSpeed = 5f;
     [SerializeField] private float _cameraBorderPadding = 1f;
@@ -62,9 +62,9 @@ public class MapView : MonoBehaviour
             _nodeEventManager.Initialize();
         }
 
-        if (_nodeEventPopup != null)
+        if (_dialogManager != null)
         {
-            _nodeEventPopup.OnChoiceMade += HandleEventChoiceMade;
+            _dialogManager.OnChoiceMade += HandleEventChoiceMade;
         }
     }
 
@@ -294,22 +294,17 @@ public class MapView : MonoBehaviour
 
     private void ShowNodeEvent(MapNodeData nodeData)
     {
-        if (_nodeEventManager == null || _nodeEventPopup == null || nodeData == null) return;
+        if (_nodeEventManager == null || _dialogManager == null || nodeData == null) return;
 
         var nodeEvent = _nodeEventManager.GetEventForNode(nodeData.NodeType);
         if (nodeEvent != null)
         {
-            _nodeEventPopup.Show(nodeEvent);
+            _dialogManager.ShowNodeEvent(nodeEvent);
         }
     }
 
     private void HandleEventChoiceMade(NodeEventChoice choice)
     {
-        if (_nodeEventManager != null)
-        {
-            _nodeEventManager.ApplyEventChoice(choice);
-        }
-
         if (_playerTurnController != null)
         {
             _playerTurnController.NotifyTurnStateChanged();
@@ -434,9 +429,9 @@ public class MapView : MonoBehaviour
             _playerTurnController.OnPlayerMovementRequested -= HandlePlayerMovementRequested;
         }
 
-        if (_nodeEventPopup != null)
+        if (_dialogManager != null)
         {
-            _nodeEventPopup.OnChoiceMade -= HandleEventChoiceMade;
+            _dialogManager.OnChoiceMade -= HandleEventChoiceMade;
         }
 
         ClearMap();
