@@ -29,11 +29,11 @@ MonoBehaviour:
     Sprite: {fileID: 21300000, guid: 1e008f65b77cac04db6b194bbf652d30, type: 3}
     Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 5
-    Sprite: {fileID: 21300000, guid: 08150e4fe5845a6419e63d4b06026b27, type: 3}
+    Sprite: {fileID: 21300000, guid: 409a4d55019f2ac41a5479b93d88298f, type: 3}
     Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 6
-    Sprite: {fileID: 21300000, guid: 033601e91cea2c745abc909afd628c9c, type: 3}
-    Description: "\u0442\u0435\u0441\u0442"
+    Sprite: {fileID: 21300000, guid: 08150e4fe5845a6419e63d4b06026b27, type: 3}
+    Description: "\u0442\u0435\u0442"
   - NodeType: 7
     Sprite: {fileID: 21300000, guid: 2c345cd5b3e579348865abe57fca2295, type: 3}
     Description: "\u0442\u0435\u0441\u0442"
