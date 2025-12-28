@@ -14,6 +14,7 @@ public class MapView : MonoBehaviour
     [SerializeField] private MapNodeView _nodeViewPrefab;
     [SerializeField] private MapConnectionView _connectionViewPrefab;
     [SerializeField] private Vector2 _nodeSpacing = new Vector2(2f, 1.5f);
+    [SerializeField] private Vector2 _positionRandomOffset = new Vector2(0.3f, 0.3f);
     [SerializeField] private MapNodeTypeMenuController _menuController;
     [Inject] private NodeEventManager _nodeEventManager;
     [Inject] private DialogManager _dialogManager;
@@ -25,6 +26,7 @@ public class MapView : MonoBehaviour
     private MapGenerator _mapGenerator;
     private MapAnimationController _animationController;
     private Dictionary<string, MapNodeView> _nodeViews;
+    private Dictionary<string, Vector3> _nodePositions;
     private List<MapConnectionView> _connectionViews;
     private MapNodeView _hoveredNode;
 
@@ -41,6 +43,7 @@ public class MapView : MonoBehaviour
         DI.Inject(this);
 
         _nodeViews = new Dictionary<string, MapNodeView>();
+        _nodePositions = new Dictionary<string, Vector3>();
         _connectionViews = new List<MapConnectionView>();
 
         _mapGenerator = GetComponent<MapGenerator>();
@@ -143,7 +146,7 @@ public class MapView : MonoBehaviour
             var startNode = _mapData.Nodes.Find(n => n.NodeType == MapNodeType.Start);
             if (startNode != null)
             {
-                _playerIcon.position = CalculateNodePosition(startNode.GridPosition);
+                _playerIcon.position = CalculateNodePosition(startNode);
 
                 if (_aiPathController != null)
                 {
@@ -162,7 +165,7 @@ public class MapView : MonoBehaviour
     {
         foreach (var nodeData in _mapData.Nodes)
         {
-            Vector3 position = CalculateNodePosition(nodeData.GridPosition);
+            Vector3 position = CalculateNodePosition(nodeData);
 
             var nodeView = Instantiate(_nodeViewPrefab, _nodesContainer);
             nodeView.transform.position = position;
@@ -183,14 +186,14 @@ public class MapView : MonoBehaviour
     {
         foreach (var nodeData in _mapData.Nodes)
         {
-            Vector3 fromPosition = CalculateNodePosition(nodeData.GridPosition);
+            Vector3 fromPosition = CalculateNodePosition(nodeData);
 
             foreach (var connectedNodeId in nodeData.ConnectedNodeIds)
             {
                 var connectedNode = _mapData.GetNodeById(connectedNodeId);
                 if (connectedNode != null)
                 {
-                    Vector3 toPosition = CalculateNodePosition(connectedNode.GridPosition);
+                    Vector3 toPosition = CalculateNodePosition(connectedNode);
 
                     var connectionView = Instantiate(_connectionViewPrefab, _connectionsContainer);
                     connectionView.Initialize(nodeData, connectedNode, fromPosition, toPosition);
@@ -201,13 +204,29 @@ public class MapView : MonoBehaviour
         }
     }
 
-    private Vector3 CalculateNodePosition(Vector2Int gridPosition)
+    private Vector3 CalculateNodePosition(MapNodeData nodeData)
     {
-        return new Vector3(
-            gridPosition.x * _nodeSpacing.x,
-            gridPosition.y * _nodeSpacing.y,
+        if (_nodePositions.ContainsKey(nodeData.Id))
+        {
+            return _nodePositions[nodeData.Id];
+        }
+
+        Vector3 basePosition = new Vector3(
+            nodeData.GridPosition.x * _nodeSpacing.x,
+            nodeData.GridPosition.y * _nodeSpacing.y,
             0f
         );
+
+        Vector3 randomOffset = new Vector3(
+            Random.Range(-_positionRandomOffset.x, _positionRandomOffset.x),
+            Random.Range(-_positionRandomOffset.y, _positionRandomOffset.y),
+            0f
+        );
+
+        Vector3 finalPosition = basePosition + randomOffset;
+        _nodePositions[nodeData.Id] = finalPosition;
+
+        return finalPosition;
     }
 
     private void HandleNodeClicked(MapNodeData nodeData)
@@ -241,8 +260,8 @@ public class MapView : MonoBehaviour
     {
         if (_playerIcon == null || _animationController == null) return;
 
-        Vector3 fromPosition = CalculateNodePosition(fromNode.GridPosition);
-        Vector3 toPosition = CalculateNodePosition(toNode.GridPosition);
+        Vector3 fromPosition = CalculateNodePosition(fromNode);
+        Vector3 toPosition = CalculateNodePosition(toNode);
 
         AnimatePathConnection(fromNode.Id, toNode.Id);
 
@@ -370,7 +389,7 @@ public class MapView : MonoBehaviour
 
         foreach (var nodeData in _mapData.Nodes)
         {
-            Vector3 nodePos = CalculateNodePosition(nodeData.GridPosition);
+            Vector3 nodePos = CalculateNodePosition(nodeData);
             minY = Mathf.Min(minY, nodePos.y);
             maxY = Mathf.Max(maxY, nodePos.y);
         }
@@ -387,6 +406,8 @@ public class MapView : MonoBehaviour
 
     private void ClearMap()
     {
+        _nodePositions.Clear();
+
         foreach (var nodeView in _nodeViews.Values)
         {
             if (nodeView != null)
