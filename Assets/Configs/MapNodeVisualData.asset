@@ -14,21 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MapNodeVisualData
   NodeTypeSprites:
   - NodeType: 0
-    Sprite: {fileID: 21300000, guid: eea44b5d84725574b91edbc89f0a17fa, type: 3}
+    Sprite: {fileID: 21300000, guid: af72b21847e4cc745a9550417bf2dac1, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 1
-    Sprite: {fileID: 21300000, guid: 16fb31784e79fc1449a921fa56b1330e, type: 3}
+    Sprite: {fileID: 21300000, guid: 490cf4ff636f2024b89863e434474ab8, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 2
-    Sprite: {fileID: 21300000, guid: 2c345cd5b3e579348865abe57fca2295, type: 3}
+    Sprite: {fileID: 21300000, guid: f6bbaa16fe1da104988720c13d65e19b, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 3
-    Sprite: {fileID: 21300000, guid: eea44b5d84725574b91edbc89f0a17fa, type: 3}
+    Sprite: {fileID: 21300000, guid: 5bbca44050388b340b33b3e6003ad454, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 4
-    Sprite: {fileID: 21300000, guid: 1e008f65b77cac04db6b194bbf652d30, type: 3}
+    Sprite: {fileID: 21300000, guid: 8858ee39e83dbdb4fad52a830d5a705c, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 5
-    Sprite: {fileID: 21300000, guid: 409a4d55019f2ac41a5479b93d88298f, type: 3}
+    Sprite: {fileID: 21300000, guid: 55ebcc0240da93849becd22af0acc025, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 6
-    Sprite: {fileID: 21300000, guid: faf1d757e27bf774c9126cca388e60d1, type: 3}
+    Sprite: {fileID: 21300000, guid: 057472a54a570e144bb2738854bce12a, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 7
-    Sprite: {fileID: 21300000, guid: 2c345cd5b3e579348865abe57fca2295, type: 3}
+    Sprite: {fileID: 21300000, guid: 2be001183b97ed64a8bc997eee8654d9, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   - NodeType: 8
-    Sprite: {fileID: 21300000, guid: 8893047a765474f49bd7cf13392c7442, type: 3}
+    Sprite: {fileID: 21300000, guid: a8f5069b7b34701479975ec5452e2de2, type: 3}
+    Description: "\u0442\u0435\u0441\u0442"
   DefaultNodeSprite: {fileID: 21300000, guid: d2362638ca4255b49b77d1e0fe21ff73, type: 3}
