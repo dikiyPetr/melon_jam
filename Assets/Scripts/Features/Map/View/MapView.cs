@@ -73,7 +73,7 @@ public class MapView : MonoBehaviour
 
     private void Start()
     {
-        GenerateAndDisplayMap();
+        GenerateAndDisplayMap();    
     }
 
     private void Update()
@@ -400,7 +400,9 @@ public class MapView : MonoBehaviour
         _maxCameraY = maxY + _cameraBorderPadding - cameraHeight;
 
         _minCameraY = Mathf.Min(_minCameraY, _maxCameraY);
-
+       
+        Vector3 currentPos = _mapCamera.transform.position;
+        _mapCamera.transform.position = new Vector3(currentPos.x, _minCameraY, currentPos.z);
         _mapBoundsCalculated = true;
     }
 
