@@ -8807,6 +8807,7 @@ MonoBehaviour:
   _nodeViewPrefab: {fileID: 2658553380446500209, guid: 4ed768ed8cc39bf48b03cf7174ab6eb4, type: 3}
   _connectionViewPrefab: {fileID: 4919600152702069899, guid: dfdc86ae8c3f6e4469d377f7114a67a6, type: 3}
   _nodeSpacing: {x: 2, y: 1.5}
+  _positionRandomOffset: {x: 0.4, y: 0.4}
   _menuController: {fileID: 1321606776}
   _mapCamera: {fileID: 330585545}
   _cameraScrollSpeed: 50
@@ -10466,7 +10467,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1030017225}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.4
+  m_Size: 0.7708333
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
