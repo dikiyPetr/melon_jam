@@ -21,7 +21,6 @@ public class GameLifetimeScope : LifetimeScope
 
     protected override void Configure(IContainerBuilder builder)
     {
-        builder.RegisterComponentInHierarchy<GlobalConfigs>().AsSelf();
         builder.RegisterComponentInHierarchy<InputManager>().AsSelf();
         builder.RegisterComponentInHierarchy<GameModeManager>().AsSelf();
         builder.RegisterComponentInHierarchy<MapNavigationController>().AsSelf();
@@ -30,5 +29,6 @@ public class GameLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<PlayerTurnController>().AsSelf();
 
         builder.Register<AIMotivationData>(Lifetime.Singleton).AsSelf();
+        builder.Register<PlayerHolder>(Lifetime.Singleton).AsSelf();
     }
 }

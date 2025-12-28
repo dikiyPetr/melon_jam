@@ -6,8 +6,12 @@ using VContainer;
 public class NodeEventManager : MonoBehaviour
 {
     [SerializeField] private NodeEventsConfig _eventsConfig;
+    [SerializeField] private EventIntentHandler _intentHandler;
+    [SerializeField] private RewardConfig _rewardConfig;
+    [SerializeField] private DialogManager _dialogManager;
 
     [Inject] private AIMotivationData _motivationData;
+    [Inject] private PlayerHolder _playerHolder;
 
     private Dictionary<MapNodeType, List<NodeEvent>> _availableEvents;
     private HashSet<NodeEvent> _usedEvents;
@@ -64,29 +68,91 @@ public class NodeEventManager : MonoBehaviour
         return selectedEvent;
     }
 
-    public void ApplyEventChoice(NodeEventChoice choice)
+    public void ShowEvent(NodeEvent nodeEvent)
     {
-        if (choice == null || _motivationData == null) return;
-
-        foreach (var change in choice.MotivationChanges)
+        if (_dialogManager != null && nodeEvent != null)
         {
-            ApplyMotivationChange(change);
+            _dialogManager.ShowNodeEvent(nodeEvent);
         }
     }
 
-    private void ApplyMotivationChange(MotivationChange change)
+    public void ShowEventForNode(MapNodeType nodeType)
     {
-        switch (change.MotivationType)
+        NodeEvent nodeEvent = GetEventForNode(nodeType);
+        if (nodeEvent != null)
         {
-            case MotivationType.Aggression:
-                _motivationData.Aggression.AddValue(change.ChangeValue);
+            ShowEvent(nodeEvent);
+        }
+    }
+
+    public void ApplyEventChoice(NodeEventChoice choice)
+    {
+        if (choice == null) return;
+
+        foreach (var reward in choice.Rewards)
+        {
+            ApplyReward(reward);
+        }
+
+        if (_intentHandler != null && choice.Intent != null)
+        {
+            _intentHandler.HandleIntent(choice.Intent);
+        }
+    }
+
+    private void ApplyReward(EventReward reward)
+    {
+        if (_rewardConfig == null) return;
+
+        switch (reward.RewardType)
+        {
+            case RewardType.Aggression:
+                if (_motivationData != null)
+                {
+                    float value = _rewardConfig.GetMotivationValue(reward.Amount);
+                    _motivationData.Aggression.AddValue(value);
+                }
                 break;
-            case MotivationType.Wealth:
-                _motivationData.Wealth.AddValue(change.ChangeValue);
+
+            case RewardType.Wealth:
+                if (_motivationData != null)
+                {
+                    float value = _rewardConfig.GetMotivationValue(reward.Amount);
+                    _motivationData.Wealth.AddValue(value);
+                }
                 break;
-            case MotivationType.Adventure:
-                _motivationData.Adventure.AddValue(change.ChangeValue);
+
+            case RewardType.Adventure:
+                if (_motivationData != null)
+                {
+                    float value = _rewardConfig.GetMotivationValue(reward.Amount);
+                    _motivationData.Adventure.AddValue(value);
+                }
                 break;
+
+            case RewardType.Heal:
+                if (_playerHolder != null)
+                {
+                    int healValue = _rewardConfig.GetHealValue(reward.Amount);
+                    _playerHolder.Heal(healValue);
+                }
+                break;
+
+            case RewardType.AttackIncrease:
+                if (_playerHolder != null)
+                {
+                    int attackIncrease = _rewardConfig.GetAttackIncreaseValue(reward.Amount);
+                    _playerHolder.SetAttackDamage(_playerHolder.AttackDamage + attackIncrease);
+                }
+                break;
+            case RewardType.Gold:
+                if (_motivationData != null)
+                {
+                    int value = _rewardConfig.GetGoldValue(reward.Amount);
+                    _playerHolder.AddGold(value);
+                }
+                break;
+
         }
     }
 }

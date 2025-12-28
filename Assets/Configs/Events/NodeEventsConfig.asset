@@ -15,72 +15,174 @@ MonoBehaviour:
   EventPools:
   - NodeType: 2
     Events:
-    - EventName: 
-      EventText: "\u0422\u0435\u0431\u0435 \u0434\u0430\u043B\u0438 \u043B\u0435\u0449\u0430"
+    - EventName: "\u0417\u0430\u0441\u0430\u0434\u0430!"
+      EventText: "\u0417\u0430\u0441\u0430\u0434\u0430! \u0413\u0435\u0440\u043E\u044F
+        \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u0442 \u0431\u0430\u043D\u0434\u0438\u0442.
+        \u041E\u043D \u0433\u043E\u0432\u043E\u0440\u0438\u0442, \u0447\u0442\u043E
+        \u0434\u0440\u0430\u043A\u0430 \u043D\u0435 \u0441\u0442\u043E\u0438\u0442
+        \u0438\u0445 \u0436\u0438\u0437\u043D\u0435\u0439... "
       Choices:
-      - ButtonText: "\u0417\u0430\u0442\u0435\u0440\u043F\u0435\u0442\u044C"
-        MotivationChanges:
-        - MotivationType: 0
-          ChangeValue: -60
+      - ButtonText: "...\u043D\u043E \u0431\u0430\u043D\u0434\u0438\u0442 \u043D\u0430\u043F\u0430\u0434\u0430\u0435\u0442 "
+        Rewards: []
+        Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
+        Condition: {fileID: 0}
+      - ButtonText: "...\u0431\u0430\u043D\u0434\u0438\u0442 \u0440\u0435\u0448\u0430\u0435\u0442,
+          \u0447\u0442\u043E \u043E\u043D\u043E \u0442\u043E\u0433\u043E \u043D\u0435
+          \u0441\u0442\u043E\u0438\u0442 "
+        Rewards:
+        - RewardType: 0
+          Amount: 3
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
       IsOneTime: 0
-    - EventName: 
-      EventText: "\u0422\u0435\u0431\u0435 \u0441\u043B\u043E\u043C\u0430\u043B\u0438
-        \u043A\u043E\u043B\u0435\u043D\u043E"
+    - EventName: "\u0417\u0430\u0432\u0430\u043B \u043D\u0430 \u0434\u043E\u0440\u043E\u0433\u0435"
+      EventText: "\u0413\u0435\u0440\u043E\u0439 \u043D\u0430\u0442\u044B\u043A\u0430\u0435\u0442\u0441\u044F
+        \u043D\u0430 \u043E\u043F\u0440\u043E\u043A\u0438\u043D\u0443\u0442\u0443\u044E
+        \u0442\u0435\u043B\u0435\u0433\u0443. \u041E\u043D \u0442\u0449\u0430\u0442\u0435\u043B\u044C\u043D\u043E
+        \u043E\u0431\u044B\u0441\u043A\u0438\u0432\u0430\u0435\u0442 \u0442\u0435\u043B\u0435\u0433\u0443
+        \u0438... "
       Choices:
-      - ButtonText: "\u0410\u0430 \u0431\u043E\u043B\u044C\u043D\u043E \u0432 \u043D\u043E\u0433\u0435"
-        MotivationChanges:
-        - MotivationType: 0
-          ChangeValue: -80
-      IsOneTime: 0
-  - NodeType: 3
-    Events:
-    - EventName: 
-      EventText: "\u041E\u043F\u0430, \u0447\u0438\u0440\u0438\u043A"
-      Choices:
-      - ButtonText: "\u0421\u044E\u0434\u0430 \u043B\u0443\u0442"
-        MotivationChanges:
-        - MotivationType: 1
-          ChangeValue: 80
-      IsOneTime: 0
-  - NodeType: 4
-    Events:
-    - EventName: 
-      EventText: "\u0425\u0432\u0430\u0442\u0438\u043B\u043E \u0442\u043E\u043B\u044C\u043A\u043E
-        \u043D\u0430 \u043F\u043E\u043A\u0443\u0448\u0430\u0442\u044C"
-      Choices:
-      - ButtonText: "\u0418 \u044F \u044D\u0442\u043E \u0445\u0430\u0432\u0430\u044E"
-        MotivationChanges:
-        - MotivationType: 1
-          ChangeValue: -60
+      - ButtonText: "...\u043D\u0430\u0445\u043E\u0434\u0438\u0442 \u043F\u0430\u0440\u0443
+          \u0437\u043E\u043B\u043E\u0442\u044B\u0445 \u043C\u043E\u043D\u0435\u0442 "
+        Rewards:
+        - RewardType: 5
+          Amount: 0
+        - RewardType: 1
+          Amount: 0
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: "...\u043F\u043E\u043F\u0430\u0434\u0430\u0435\u0442 \u0432 \u0437\u0430\u0441\u0430\u0434\u0443"
+        Rewards: []
+        Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
+        Condition: {fileID: 0}
       IsOneTime: 0
   - NodeType: 5
     Events:
-    - EventName: 
-      EventText: "\u0422\u0443\u0442 \u043A\u0430\u0440\u0442\u043E\u043D\u043A\u0430
-        \u0432 \u0443\u043A\u0440\u043E\u043C\u043D\u043E\u043C \u0443\u0433\u043B\u0443"
+    - EventName: "\u0421\u043A\u0430\u0437\u0438\u0442\u0435\u0435\u043B\u044C"
+      EventText: "\u0413\u0435\u0440\u043E\u0439 \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u0442
+        \u0441\u043A\u0430\u0437\u0438\u0442\u0435\u043B\u044F. \u041E\u043D \u043F\u0440\u043E\u0441\u0438\u0442
+        \u0442\u043E\u0433\u043E \u0440\u0430\u0441\u0441\u043A\u0430\u0437\u0430\u0442\u044C
+        \u0438\u0441\u0442\u043E\u0440\u0438\u044E, \u0430 \u0441\u043A\u0430\u0437\u0438\u0442\u0435\u043B\u044C
+        \u0440\u0430\u0441\u0441\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442... "
       Choices:
-      - ButtonText: "\u041F\u043E\u0440\u0430 \u0432\u0437\u0440\u0435\u043C\u043D\u0443\u0442\u044C"
-        MotivationChanges:
-        - MotivationType: 0
-          ChangeValue: 80
+      - ButtonText: "...\u0438\u0441\u0442\u043E\u0440\u0438\u044E \u043E \u0441\u043B\u0430\u0432\u043D\u044B\u0445
+          \u0441\u0440\u0430\u0436\u0435\u043D\u0438\u044F\u0445 "
+        Rewards:
+        - RewardType: 4
+          Amount: 0
+        - RewardType: 0
+          Amount: 2
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+  - NodeType: 8
+    Events:
+    - EventName: TODO
+      EventText: "+ \u0434\u0435\u043D\u044C\u0433\u0438"
+      Choices:
+      - ButtonText: "+ \u0434\u0435\u043D\u044C\u0433\u0438"
+        Rewards:
+        - RewardType: 5
+          Amount: 2
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+  - NodeType: 4
+    Events:
+    - EventName: "\u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446"
+      EventText: "\u0413\u0435\u0440\u043E\u0439 \u0432\u0441\u0442\u0440\u0435\u0447\u0430\u0435\u0442
+        \u0442\u043E\u0440\u0433\u043E\u0432\u0446\u0430 \u043D\u0430 \u043E\u0431\u043E\u0447\u0438\u043D\u0435
+        \u0434\u043E\u0440\u043E\u0433\u0438. \u0422\u043E\u0440\u0433\u043E\u0432\u0435\u0446
+        \u0440\u0430\u0441\u0441\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442
+        \u043E \u0442\u043E\u043C, \u0447\u0442\u043E \u043D\u0435\u0434\u0430\u0432\u043D\u043E
+        \u043F\u0440\u0438\u043E\u0431\u0440\u0435\u043B \u043C\u043E\u0449\u043D\u044B\u0439
+        \u0430\u0440\u0442\u0435\u0444\u0430\u043A\u0442, \u043A\u043E\u0442\u043E\u0440\u044B\u0439
+        \u0433\u043E\u0442\u043E\u0432 \u043F\u043E \u0441\u043A\u0438\u0434\u043A\u0435
+        \u043F\u0440\u043E\u0434\u0430\u0442\u044C \u0433\u0435\u0440\u043E\u044E.
+        \u041D\u0430\u0448 \u0433\u0435\u0440\u043E\u0439 \u0441\u043E\u0433\u043B\u0430\u0448\u0430\u0435\u0442\u0441\u044F... "
+      Choices:
+      - ButtonText: "...\u0430 \u043B\u0435\u043A\u0430\u0440\u044C \u0441 \u0440\u0430\u0434\u043E\u0441\u0442\u044C\u044E
+          \u0434\u0435\u043B\u0438\u0442\u0441\u044F \u0437\u043D\u0430\u043D\u0438\u044F\u043C\u0438
+          \u0437\u0430 \u043F\u0430\u0440\u0443 \u043C\u043E\u043D\u0435\u0442"
+        Rewards:
+        - RewardType: 3
+          Amount: 2
+        Intent: {fileID: 0}
+        Condition: {fileID: 11400000, guid: 256e074d2d0d3e1418a994d2e256d912, type: 2}
+      - ButtonText: "... \u0430 \u043F\u0440\u0435\u0434\u043B\u0430\u0433\u0430\u0435\u0442
+          \u043E\u043F\u0440\u043E\u0431\u043E\u0432\u0430\u0442\u044C \u044D\u043A\u0441\u043F\u0435\u0440\u0438\u043C\u0435\u043D\u0442\u0430\u043B\u044C\u043D\u044B\u0439
+          \u044D\u043B\u0435\u043A\u0441\u0438\u0440"
+        Rewards:
+        - RewardType: 3
+          Amount: 3
+        - RewardType: 4
+          Amount: 0
+        - RewardType: 5
+          Amount: 0
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+  - NodeType: 3
+    Events:
+    - EventName: TODO
+      EventText: "+ \u0430\u0432\u0430\u043D\u0442\u044E\u0440\u0438\u0437\u043C"
+      Choices:
+      - ButtonText: "+ \u0430\u0432\u0430\u043D\u0442\u044E\u0440\u0438\u0437\u043C"
+        Rewards:
+        - RewardType: 2
+          Amount: 2
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
       IsOneTime: 0
   - NodeType: 6
     Events:
-    - EventName: 
-      EventText: "\u041A\u0430\u0437\u0438\u043A"
+    - EventName: "\u0420\u0443\u0438\u043D\u044B"
+      EventText: "\u0413\u0435\u0440\u043E\u0439 \u0437\u0430\u0431\u0438\u0440\u0430\u0435\u0442\u0441\u044F
+        \u0432 \u0440\u0443\u0438\u043D\u044B \u0438 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0438\u0432\u0430\u0435\u0442
+        \u0442\u0430\u043C \u0434\u0440\u0435\u0432\u043D\u0438\u0439 \u0430\u0440\u0442\u0435\u0444\u0430\u043A\u0442.
+        \u041E\u043D \u043F\u044B\u0442\u0430\u0435\u0442\u0441\u044F \u043D\u0430\u0441\u0442\u0440\u043E\u0438\u0442\u044C\u0441\u044F
+        \u043D\u0430 \u0441\u0438\u043B\u044B \u0430\u0440\u0442\u0435\u0444\u0430\u043A\u0442\u0430... "
       Choices:
-      - ButtonText: "\u0412\u0441\u0435 \u043D\u0430 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
-        MotivationChanges:
-        - MotivationType: 2
-          ChangeValue: -80
-      IsOneTime: 0
+      - ButtonText: "..\u0438 \u0442\u043E\u0442 \u0435\u0433\u043E \u043F\u0440\u0438\u043D\u0438\u043C\u0430\u0435\u0442 "
+        Rewards:
+        - RewardType: 2
+          Amount: 1
+        Intent: {fileID: 11400000, guid: 8c996f6eeb8df054397d4956d3a24d79, type: 2}
+        Condition: {fileID: 0}
+      IsOneTime: 1
+    - EventName: "\u0422\u0430\u0439\u043D\u0438\u043A"
+      EventText: "\u0413\u0435\u0440\u043E\u0439 \u043D\u0430\u0442\u044B\u043A\u0430\u0435\u0442\u0441\u044F
+        \u043D\u0430 \u0442\u0430\u0439\u043D\u0438\u043A \u043A\u043E\u043D\u0442\u0440\u0430\u0431\u0430\u043D\u0434\u0438\u0441\u0442\u043E\u0432.
+        \u041E\u043D \u0437\u0430\u0431\u0438\u0440\u0430\u0435\u0442 \u043E\u0442\u0442\u0443\u0434\u0430
+        \u0432\u0441\u0435 \u0441\u043E\u043A\u0440\u043E\u0432\u0438\u0449\u0430,
+        \u043D\u043E \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0438\u0432\u0430\u0435\u0442,
+        \u0447\u0442\u043E \u043A\u043E\u043D\u0442\u0440\u0430\u0431\u0430\u043D\u0434\u0438\u0441\u0442\u044B
+        \u0443\u0436\u0435 \u0437\u0434\u0435\u0441\u044C... "
+      Choices:
+      - ButtonText: "...\u0438 \u043E\u043D\u0438 \u043E\u0447\u0435\u043D\u044C
+          \u043D\u0435\u0434\u043E\u0432\u043E\u043B\u044C\u043D\u044B \u0433\u0435\u0440\u043E\u0435\u043C "
+        Rewards:
+        - RewardType: 0
+          Amount: 3
+        Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
+        Condition: {fileID: 0}
+      - ButtonText: "...\u043D\u043E \u043E\u043D\u0438 \u043D\u0435 \u0437\u0430\u043C\u0435\u0447\u0430\u044E\u0442,
+          \u043A\u0430\u043A \u0433\u0435\u0440\u043E\u0439 \u0443\u0431\u0435\u0433\u0430\u0435\u0442 "
+        Rewards:
+        - RewardType: 5
+          Amount: 0
+        - RewardType: 2
+          Amount: 0
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 1
   - NodeType: 7
     Events:
     - EventName: 
       EventText: "\u041A\u0430\u0437\u0438\u043A"
       Choices:
       - ButtonText: "\u0412\u0441\u0435 \u043D\u0430 \u043A\u0440\u0430\u0441\u043D\u043E\u0435"
-        MotivationChanges:
-        - MotivationType: 2
-          ChangeValue: -20
+        Rewards: []
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
       IsOneTime: 0
