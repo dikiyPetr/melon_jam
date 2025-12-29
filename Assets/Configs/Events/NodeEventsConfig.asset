@@ -15,15 +15,17 @@ MonoBehaviour:
   EventPools:
   - NodeType: 2
     Events:
-    - EventName: fight
-      EventText: 
+    - EventName: "\u0410mbush"
+      EventText: The hero moves along the forest and sees a bandit on the road, waiting
+        for a victim to rob. He jumps out onto the road and demands that he stop
+        his crimes.
       Icon: {fileID: 21300000, guid: 8ac26ae8bd2696a4d9523a87eacf2b19, type: 3}
       Choices:
-      - ButtonText: fight
+      - ButtonText: The bandit grabs his weapon.
         Rewards: []
         Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
         Condition: {fileID: 0}
-      - ButtonText: escape
+      - ButtonText: 'The bandit runs away in fear.  '
         Rewards:
         - RewardType: 0
           Amount: 3
