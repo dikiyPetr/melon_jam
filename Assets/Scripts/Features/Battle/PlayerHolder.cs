@@ -90,5 +90,6 @@ public class PlayerHolder
         CurrentHP = 100;
         AttackDamage = 5;
         Gold = 50;
+        Items = new List<PlayerItem>();
     }
 }
