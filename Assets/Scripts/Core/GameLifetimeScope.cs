@@ -7,14 +7,7 @@ public class GameLifetimeScope : LifetimeScope
 
     protected override void Awake()
     {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         instance = this;
-        DontDestroyOnLoad(gameObject);
 
         base.Awake();
     }
