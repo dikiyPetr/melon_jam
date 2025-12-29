@@ -47,6 +47,21 @@ MonoBehaviour:
   - LineType: 3
     NodeCount: 1
     HasGuaranteedConnections: 1
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 0
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 1
+  - LineType: 1
+    NodeCount: 3
+    HasGuaranteedConnections: 1
+  - LineType: 2
+    NodeCount: 3
+    HasGuaranteedConnections: 1
+  - LineType: 3
+    NodeCount: 1
+    HasGuaranteedConnections: 1
   - LineType: 4
     NodeCount: 1
     HasGuaranteedConnections: 1
