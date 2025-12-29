@@ -15,5 +15,5 @@ MonoBehaviour:
   EnemyMaxHP: 200
   EnemyAttack: 10
   EnemySprite: {fileID: 21300000, guid: d4c6c31df94b5a64dad3acb75809a50a, type: 3}
-  VictoryIntent: {fileID: 0}
+  VictoryIntent: {fileID: 11400000, guid: a8983143a2e85b44c924dc22922c26c3, type: 2}
   DefeatIntent: {fileID: 11400000, guid: c2f66b5bd2885304c8492b5483fc8dd7, type: 2}

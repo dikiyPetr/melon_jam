@@ -96,11 +96,9 @@ MonoBehaviour:
       Choices:
       - ButtonText: ...the finest armor
         Rewards:
-        - RewardType: 3
-          Amount: 1
         - RewardType: 5
           Amount: 4
-        Intent: {fileID: 0}
+        Intent: {fileID: 11400000, guid: 232c45e3d028897478cba107474c48ad, type: 2}
         Condition: {fileID: 11400000, guid: 256e074d2d0d3e1418a994d2e256d912, type: 2}
       - ButtonText: ...the finest sword
         Rewards:
@@ -108,6 +106,14 @@ MonoBehaviour:
           Amount: 1
         - RewardType: 5
           Amount: 4
+        Intent: {fileID: 0}
+        Condition: {fileID: 11400000, guid: 256e074d2d0d3e1418a994d2e256d912, type: 2}
+      - ButtonText: ...the finest candy
+        Rewards:
+        - RewardType: 3
+          Amount: 0
+        - RewardType: 5
+          Amount: 3
         Intent: {fileID: 0}
         Condition: {fileID: 0}
       IsOneTime: 0
@@ -213,11 +219,9 @@ MonoBehaviour:
         Condition: {fileID: 0}
       - ButtonText: '...a battered armor (HP increased, aggression decreased)  '
         Rewards:
-        - RewardType: 3
-          Amount: 0
         - RewardType: 0
           Amount: 4
-        Intent: {fileID: 0}
+        Intent: {fileID: 11400000, guid: 232c45e3d028897478cba107474c48ad, type: 2}
         Condition: {fileID: 0}
       IsOneTime: 0
     - EventName: Demon
