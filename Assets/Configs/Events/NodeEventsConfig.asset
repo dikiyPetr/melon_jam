@@ -15,62 +15,72 @@ MonoBehaviour:
   EventPools:
   - NodeType: 2
     Events:
-    - EventName: "\u0410mbush"
+    - EventName: Ambush
       EventText: The hero moves along the forest and sees a bandit on the road, waiting
         for a victim to rob. He jumps out onto the road and demands that he stop
         his crimes.
       Icon: {fileID: 21300000, guid: 8ac26ae8bd2696a4d9523a87eacf2b19, type: 3}
       Choices:
-      - ButtonText: The bandit grabs his weapon.
+      - ButtonText: The bandit grabs his weapon. (Battle)
         Rewards: []
         Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
         Condition: {fileID: 0}
-      - ButtonText: 'The bandit runs away in fear.  '
+      - ButtonText: The bandit runs away in fear.  (aggression decreases)
         Rewards:
         - RewardType: 0
           Amount: 3
         Intent: {fileID: 0}
         Condition: {fileID: 0}
       IsOneTime: 0
-    - EventName: fight
-      EventText: 
+    - EventName: Justice
+      EventText: Walking along the road, the hero encounters a bandit harassing a
+        woman. The hero draws his sword and demands the bandit leave the lady alone.
       Icon: {fileID: 21300000, guid: 8ac26ae8bd2696a4d9523a87eacf2b19, type: 3}
       Choices:
-      - ButtonText: gold
-        Rewards:
-        - RewardType: 5
-          Amount: 0
-        - RewardType: 1
-          Amount: 0
-        Intent: {fileID: 0}
-        Condition: {fileID: 0}
-      - ButtonText: fight
+      - ButtonText: The bandit attacks the hero. (Battle)
         Rewards: []
         Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
+        Condition: {fileID: 0}
+      - ButtonText: The bandit apologizes and walks away.  (aggression decreases)
+        Rewards:
+        - RewardType: 0
+          Amount: 3
+        Intent: {fileID: 0}
         Condition: {fileID: 0}
       IsOneTime: 0
   - NodeType: 5
     Events:
-    - EventName: dmg up
-      EventText: 
+    - EventName: Rest
+      EventText: The hero decides to take a break and sets up camp. He chooses to
+        rest and get some sleep...
       Icon: {fileID: 21300000, guid: 2dba832776005a0469e94a82a9db4425, type: 3}
       Choices:
-      - ButtonText: +
+      - ButtonText: ...and sleeps soundly (Health restored, Aggression lowered)
+        Rewards:
+        - RewardType: 1
+          Amount: 1
+        - RewardType: 0
+          Amount: 3
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: '...but has nightmares and goes to train (Attack increased, Aggression
+          increased)  '
         Rewards:
         - RewardType: 4
           Amount: 0
         - RewardType: 0
-          Amount: 2
+          Amount: 0
         Intent: {fileID: 0}
         Condition: {fileID: 0}
       IsOneTime: 0
   - NodeType: 8
     Events:
-    - EventName: money
-      EventText: 
+    - EventName: Money
+      EventText: The hero stumbles upon an abandoned building. After searching it
+        thoroughly, he finds a few gold coins.
       Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
       Choices:
-      - ButtonText: money
+      - ButtonText: Excellent!
         Rewards:
         - RewardType: 5
           Amount: 2
@@ -79,64 +89,78 @@ MonoBehaviour:
       IsOneTime: 0
   - NodeType: 4
     Events:
-    - EventName: shop
-      EventText: 
+    - EventName: Merchant
+      EventText: The hero comes across a merchant. He offers him several goods, but
+        the hero asks for the finest item, and the merchant hands over...
       Icon: {fileID: 21300000, guid: a0e12fbc93a69e74cbbab66d99d674d1, type: 3}
       Choices:
-      - ButtonText: +hp
+      - ButtonText: ...the finest armor
         Rewards:
         - RewardType: 3
-          Amount: 2
+          Amount: 1
+        - RewardType: 5
+          Amount: 4
         Intent: {fileID: 0}
         Condition: {fileID: 11400000, guid: 256e074d2d0d3e1418a994d2e256d912, type: 2}
-      - ButtonText: +dmg
+      - ButtonText: ...the finest sword
         Rewards:
-        - RewardType: 3
-          Amount: 3
         - RewardType: 4
-          Amount: 0
+          Amount: 1
         - RewardType: 5
-          Amount: 0
+          Amount: 4
         Intent: {fileID: 0}
         Condition: {fileID: 0}
       IsOneTime: 0
   - NodeType: 3
     Events:
-    - EventName: TODO
-      EventText: 
+    - EventName: Legendary Fighter
+      EventText: The hero meets a legendary fighter on his path. He asks him to give
+        a couple of lessons to a novice adventurer...
       Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
       Choices:
-      - ButtonText: +event
+      - ButtonText: ...and the fighter agrees (Attack increased, Adventurism increased).
         Rewards:
         - RewardType: 2
-          Amount: 2
+          Amount: 0
+        - RewardType: 3
+          Amount: 0
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: ...but the fighter decides to teach him a lesson in manners (Health
+          decreased, Aggression increased)
+        Rewards:
+        - RewardType: 0
+          Amount: 1
+        - RewardType: 3
+          Amount: 3
         Intent: {fileID: 0}
         Condition: {fileID: 0}
       IsOneTime: 0
   - NodeType: 6
     Events:
     - EventName: Treasure
-      EventText: 
+      EventText: The hero stumbles upon a treasure chest.
       Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
       Choices:
-      - ButtonText: loot
+      - ButtonText: Let's see what's inside. (Random artifact obtained)
         Rewards:
         - RewardType: 2
           Amount: 1
         Intent: {fileID: 11400000, guid: 8c996f6eeb8df054397d4956d3a24d79, type: 2}
         Condition: {fileID: 0}
       IsOneTime: 1
-    - EventName: bandit
-      EventText: 
+    - EventName: Trap
+      EventText: The hero stumbles upon a chest. When he opens it, he hears a rustling
+        sound from behind.
       Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
       Choices:
-      - ButtonText: fight
+      - ButtonText: It's a trap!
         Rewards:
         - RewardType: 0
           Amount: 3
         Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
         Condition: {fileID: 0}
-      - ButtonText: escape
+      - ButtonText: Just the wind
         Rewards:
         - RewardType: 5
           Amount: 0
