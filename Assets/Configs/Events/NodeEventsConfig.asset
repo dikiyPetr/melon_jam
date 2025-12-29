@@ -57,7 +57,7 @@ MonoBehaviour:
       Choices:
       - ButtonText: ...and sleeps soundly (Health restored, Aggression lowered)
         Rewards:
-        - RewardType: 1
+        - RewardType: 3
           Amount: 1
         - RewardType: 0
           Amount: 3
@@ -133,6 +133,112 @@ MonoBehaviour:
           Amount: 1
         - RewardType: 3
           Amount: 3
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+    - EventName: Taxman
+      EventText: The hero meets a tax collector. He demands the hero pay a toll.
+        But the hero presents his papers, which the collector...
+      Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
+      Choices:
+      - ButtonText: ...validates and lets the hero pass (aggression decreased)
+        Rewards:
+        - RewardType: 0
+          Amount: 4
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: '...declares fake and fines the hero (gold decreased, aggression
+          and adventurousness increased)  '
+        Rewards:
+        - RewardType: 0
+          Amount: 1
+        - RewardType: 5
+          Amount: 4
+        - RewardType: 2
+          Amount: 1
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+    - EventName: Cart
+      EventText: The hero comes across an overturned cart. He searches it thoroughly
+        and...
+      Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
+      Choices:
+      - ButtonText: '...finds a few gold coins (gold and adventurousness increased)  '
+        Rewards:
+        - RewardType: 5
+          Amount: 1
+        - RewardType: 2
+          Amount: 1
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: '...walks into an ambush (battle)  '
+        Rewards: []
+        Intent: {fileID: 11400000, guid: 3bb381c76c4f8434793785b9210715a1, type: 2}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+    - EventName: Bard
+      EventText: 'The hero meets a storyteller. He asks him to tell a tale, and the
+        storyteller recounts...  '
+      Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
+      Choices:
+      - ButtonText: '...a tale of glorious battles (attack and aggression increased)  '
+        Rewards:
+        - RewardType: 4
+          Amount: 0
+        - RewardType: 0
+          Amount: 1
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: '...a tale of a cowardly runaway (aggression decreased)  '
+        Rewards:
+        - RewardType: 0
+          Amount: 3
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+    - EventName: Forge
+      EventText: 'The hero spots an abandoned forge by the road. He searches it and
+        finds...  '
+      Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
+      Choices:
+      - ButtonText: '...a good sword (attack and adventurousness increased)  '
+        Rewards:
+        - RewardType: 4
+          Amount: 0
+        - RewardType: 2
+          Amount: 1
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: '...a battered armor (HP increased, aggression decreased)  '
+        Rewards:
+        - RewardType: 3
+          Amount: 0
+        - RewardType: 0
+          Amount: 4
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      IsOneTime: 0
+    - EventName: Demon
+      EventText: 'A sinister demon appears before the hero. He offers him a deal,
+        and the hero accepts, but it turns out the deal is...  '
+      Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
+      Choices:
+      - ButtonText: '...quite unfavorable for the hero (gold increased, health decreased)  '
+        Rewards:
+        - RewardType: 5
+          Amount: 0
+        - RewardType: 3
+          Amount: 3
+        Intent: {fileID: 0}
+        Condition: {fileID: 0}
+      - ButtonText: '...extremely unfavorable for the hero (gold greatly increased,
+          health greatly decreased)  '
+        Rewards:
+        - RewardType: 3
+          Amount: 5
+        - RewardType: 5
+          Amount: 1
         Intent: {fileID: 0}
         Condition: {fileID: 0}
       IsOneTime: 0

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::VictoryIntent
   Event:
     EventName: Victory
-    EventText: +gold
+    EventText: The hero searches the corpse of a defeated enemy and finds a few gold
+      coins.
     Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
     Choices:
-    - ButtonText: +gold
+    - ButtonText: And we move on. (Gold increased)
       Rewards:
       - RewardType: 5
         Amount: 1
