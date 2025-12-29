@@ -95,7 +95,7 @@ public class AIPathfinder
             var rowData = _mapData.GetRow(row);
             if (rowData == null) continue;
 
-            if (rowData.RowType == MapRowType.Checkpoint)
+            if (rowData.RowType == MapRowType.Checkpoint || rowData.RowType == MapRowType.Boss)
             {
                 var nodesInRow = rowData.GetAllNodes();
                 var desiredNode = nodesInRow.FirstOrDefault(n => n.NodeType == desiredNodeType);
