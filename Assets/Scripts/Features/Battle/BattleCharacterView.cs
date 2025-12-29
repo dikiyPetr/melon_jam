@@ -7,12 +7,14 @@ public class BattleCharacterView : MonoBehaviour
     private ShakeEffect shakeEffect;
     private FlashEffect flashEffect;
     private BattleCharacter battleCharacter;
+    private SpriteRenderer spriteRenderer;
 
     private void Awake()
     {
         shakeEffect = GetComponent<ShakeEffect>();
         flashEffect = GetComponent<FlashEffect>();
         battleCharacter = GetComponent<BattleCharacter>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (battleCharacter != null)
         {
@@ -46,6 +48,14 @@ public class BattleCharacterView : MonoBehaviour
         if (flashEffect != null)
         {
             flashEffect.Flash();
+        }
+    }
+
+    public void SetSprite(Sprite sprite)
+    {
+        if (spriteRenderer != null && sprite != null)
+        {
+            spriteRenderer.sprite = sprite;
         }
     }
 }

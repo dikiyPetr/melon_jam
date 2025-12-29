@@ -7,6 +7,7 @@ public class PlayerTurnController : MonoBehaviour
     [Inject] private MapNavigationController _navigationController;
     [Inject] private AIMotivationPathController _aiPathController;
     [Inject] private AIMotivationData _motivationData;
+    [Inject] private AIMotivationController _motivationController;
 
     private MapData _mapData;
     private AINodeSelector _nodeSelector;
@@ -24,7 +25,8 @@ public class PlayerTurnController : MonoBehaviour
     public void Initialize(MapData mapData)
     {
         _mapData = mapData;
-        _nodeSelector = new AINodeSelector(_motivationData, _mapData);
+        AIMotivationConfig config = _motivationController != null ? _motivationController.Config : null;
+        _nodeSelector = new AINodeSelector(_motivationData, _mapData, config);
 
         if (_navigationController != null)
         {

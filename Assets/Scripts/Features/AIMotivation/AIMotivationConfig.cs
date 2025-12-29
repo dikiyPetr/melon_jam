@@ -3,6 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "AIMotivation/AI Motivation Config")]
 public class AIMotivationConfig : ScriptableObject
 {
+    public float MotivationDifferenceThreshold = 2f;
+
     public MotivationStatConfig Aggression = new MotivationStatConfig
     {
         Name = "Жажда боя",

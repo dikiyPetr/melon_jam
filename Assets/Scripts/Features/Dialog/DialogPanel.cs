@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DialogPanel : MonoBehaviour
@@ -9,12 +10,13 @@ public class DialogPanel : MonoBehaviour
     [SerializeField] private GameObject _contentPanel;
     [SerializeField] private TextMeshProUGUI _titleText;
     [SerializeField] private TextMeshProUGUI _descriptionText;
+    [SerializeField] private Image _iconImage;
     [SerializeField] private Transform _buttonsContainer;
     [SerializeField] private DialogButton _buttonPrefab;
 
     private List<DialogButton> _activeButtons = new List<DialogButton>();
 
-    public void Show(string title, string description, List<DialogButtonData> buttons)
+    public void Show(string title, string description, List<DialogButtonData> buttons, Sprite icon = null)
     {
         if (_titleText != null)
         {
@@ -24,6 +26,20 @@ public class DialogPanel : MonoBehaviour
         if (_descriptionText != null)
         {
             _descriptionText.text = description;
+        }
+
+        if (_iconImage != null)
+        {
+            if (icon != null)
+            {
+                _iconImage.sprite = icon;
+                _iconImage.enabled = true;
+            }
+            else
+            {
+                _iconImage.sprite = null;
+                _iconImage.enabled = false;
+            }
         }
 
         ClearButtons();
@@ -59,7 +75,7 @@ public class DialogPanel : MonoBehaviour
             buttons.Add(buttonData);
         }
 
-        Show(nodeEvent.EventName, nodeEvent.EventText, buttons);
+        Show(nodeEvent.EventName, nodeEvent.EventText, buttons, nodeEvent.Icon);
     }
 
     public void Hide()

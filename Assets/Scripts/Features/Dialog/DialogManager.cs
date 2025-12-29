@@ -29,11 +29,11 @@ public class DialogManager : MonoBehaviour
         _dialogPanel.ShowNodeEvent(nodeEvent, _playerHolder, OnChoiceSelected);
     }
 
-    public void ShowDialog(string title, string description, List<DialogButtonData> buttons)
+    public void ShowDialog(string title, string description, List<DialogButtonData> buttons, Sprite icon = null)
     {
         if (_dialogPanel == null) return;
 
-        _dialogPanel.Show(title, description, buttons);
+        _dialogPanel.Show(title, description, buttons, icon);
     }
 
     public void HideDialog()

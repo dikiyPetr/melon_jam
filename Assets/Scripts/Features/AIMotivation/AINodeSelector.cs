@@ -6,32 +6,79 @@ public class AINodeSelector
 {
     private AIMotivationData _motivationData;
     private MapData _mapData;
+    private AIMotivationConfig _config;
 
     public bool UseRandomSelection = true;
 
-    public AINodeSelector(AIMotivationData motivationData, MapData mapData)
+    public AINodeSelector(AIMotivationData motivationData, MapData mapData, AIMotivationConfig config)
     {
         _motivationData = motivationData;
         _mapData = mapData;
+        _config = config;
     }
 
     public string SelectNextNode(HashSet<string> validNextNodes)
     {
         if (validNextNodes == null || validNextNodes.Count == 0)
         {
-            Debug.Log('d');
             return null;
         }
 
-        var top2Motivations = GetTop2Motivations(validNextNodes);
-        if (top2Motivations.Count == 0)
+        var nodeMotivationPairs = new List<(string nodeId, float motivationValue)>();
+
+        foreach (var nodeId in validNextNodes)
         {
-            Debug.Log('d');
+            var node = _mapData.GetNodeById(nodeId);
+            if (node == null) continue;
+
+            float maxMotivation = GetMaxMotivationForNode(node);
+            nodeMotivationPairs.Add((nodeId, maxMotivation));
+        }
+
+        if (nodeMotivationPairs.Count == 0)
+        {
             return validNextNodes.First();
         }
 
-        var selectedMotivation = SelectMotivationRandomly(top2Motivations);
-        return SelectNodeForMotivation(validNextNodes, selectedMotivation);
+        var sortedPairs = nodeMotivationPairs.OrderByDescending(p => p.motivationValue).ToList();
+
+        if (sortedPairs.Count == 1)
+        {
+            return sortedPairs[0].nodeId;
+        }
+
+        float maxValue = sortedPairs[0].motivationValue;
+        float secondValue = sortedPairs[1].motivationValue;
+        float difference = maxValue - secondValue;
+
+        float threshold = _config != null ? _config.MotivationDifferenceThreshold : 2f;
+
+        string nodesInfo = string.Join(", ", sortedPairs.Take(2).Select(p =>
+        {
+            var node = _mapData.GetNodeById(p.nodeId);
+            return $"{node?.NodeType}:{p.motivationValue:F0}";
+        }));
+        Debug.Log($"AI Node: T={threshold:F1}, D={difference:F1} | {nodesInfo}");
+
+        if (difference > threshold)
+        {
+            return sortedPairs[0].nodeId;
+        }
+        else if (UseRandomSelection)
+        {
+            float totalWeight = maxValue + secondValue;
+            if (totalWeight <= 0f)
+            {
+                return sortedPairs[Random.Range(0, 2)].nodeId;
+            }
+
+            float randomValue = Random.Range(0f, totalWeight);
+            return randomValue <= maxValue ? sortedPairs[0].nodeId : sortedPairs[1].nodeId;
+        }
+        else
+        {
+            return sortedPairs[0].nodeId;
+        }
     }
 
     public HashSet<string> GetSelectableNodes(HashSet<string> validNextNodes)
@@ -43,13 +90,13 @@ public class AINodeSelector
             return selectableNodes;
         }
 
-        var top2Motivations = GetTop2Motivations(validNextNodes);
-        if (top2Motivations.Count == 0)
+        var sortedMotivations = GetSortedMotivations(validNextNodes);
+        if (sortedMotivations.Count == 0)
         {
             return new HashSet<string>(validNextNodes);
         }
 
-        foreach (var motivation in top2Motivations)
+        foreach (var motivation in sortedMotivations)
         {
             var desiredType = motivation.GetDesiredNodeType();
 
@@ -73,7 +120,7 @@ public class AINodeSelector
         return selectableNodes;
     }
 
-    private List<MotivationStat> GetTop2Motivations(HashSet<string> validNextNodes)
+    private float GetMaxMotivationForNode(MapNodeData node)
     {
         var motivations = new List<MotivationStat>
         {
@@ -82,19 +129,53 @@ public class AINodeSelector
             _motivationData.Adventure
         };
 
-        var availableMotivations = motivations.Where(m => HasNodeWithDesiredType(validNextNodes, m.GetDesiredNodeType())).ToList();
+        float maxMotivation = 0f;
+
+        foreach (var motivation in motivations)
+        {
+            if (node.NodeType == motivation.HighValueNodeType)
+            {
+                float weight = motivation.CurrentValue;
+                if (weight > maxMotivation)
+                {
+                    maxMotivation = weight;
+                }
+            }
+
+            if (node.NodeType == motivation.LowValueNodeType)
+            {
+                float weight = motivation.MaxValue - motivation.CurrentValue;
+                if (weight > maxMotivation)
+                {
+                    maxMotivation = weight;
+                }
+            }
+        }
+
+        return maxMotivation;
+    }
+
+    private List<MotivationStat> GetSortedMotivations(HashSet<string> validNextNodes)
+    {
+        var motivations = new List<MotivationStat>
+        {
+            _motivationData.Aggression,
+            _motivationData.Wealth,
+            _motivationData.Adventure
+        };
+
+        var availableMotivations =
+            motivations.Where(m => HasNodeWithDesiredType(validNextNodes, m.GetDesiredNodeType())).ToList();
 
         if (availableMotivations.Count == 0)
         {
             return motivations
                 .OrderByDescending(m => GetMotivationWeight(m))
-                .Take(2)
                 .ToList();
         }
 
         return availableMotivations
             .OrderByDescending(m => GetMotivationWeight(m))
-            .Take(2)
             .ToList();
     }
 
@@ -152,18 +233,30 @@ public class AINodeSelector
             return motivations[Random.Range(0, motivations.Count)];
         }
 
-        Debug.Log($"AI Motivation Selection ({(UseRandomSelection ? "Random" : "Max Weight")}) - Total Weight: {totalWeight:F2}");
-        foreach (var m in motivations)
+        var sortedMotivations = motivations.OrderByDescending(m => GetMotivationWeight(m)).ToList();
+        float maxWeight = GetMotivationWeight(sortedMotivations[0]);
+        float secondWeight = sortedMotivations.Count > 1 ? GetMotivationWeight(sortedMotivations[1]) : 0f;
+        float difference = maxWeight - secondWeight;
+
+        float threshold = _config != null ? _config.MotivationDifferenceThreshold : 2f;
+        bool useMaxWeight = difference < threshold;
+
+        string motivationsInfo = string.Join(", ", motivations.Select(m =>
         {
             float weight = GetMotivationWeight(m);
             float chance = (weight / totalWeight) * 100f;
-            string nodeTypeInfo = m.GetDesiredNodeType() == m.HighValueNodeType ? "High" : "Low";
-            Debug.Log($"  {m.GetDesiredNodeType()} ({nodeTypeInfo}): weight={weight:F2}, chance={chance:F1}%");
-        }
+            string type = m.GetDesiredNodeType() == m.HighValueNodeType ? "H" : "L";
+            return $"{m.GetDesiredNodeType()}({type}):{chance:F0}%";
+        }));
+        Debug.Log($"AI: T={threshold:F1}, D={difference:F1}, Max={useMaxWeight} | {motivationsInfo}");
 
         MotivationStat selectedMotivation;
 
-        if (UseRandomSelection)
+        if (useMaxWeight)
+        {
+            selectedMotivation = sortedMotivations[0];
+        }
+        else if (UseRandomSelection)
         {
             float randomValue = Random.Range(0f, totalWeight);
             float currentSum = 0f;
@@ -181,7 +274,7 @@ public class AINodeSelector
         }
         else
         {
-            selectedMotivation = motivations[0];
+            selectedMotivation = sortedMotivations[0];
         }
 
         Debug.Log($"Selected: {selectedMotivation.GetDesiredNodeType()}");

@@ -3,31 +3,34 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using VContainer;
 
 public class BattleController : MonoBehaviour
 {
-    [Header("Battle Characters")]
-    [SerializeField] private BattleCharacter playerCharacter;
+    [Header("Battle Characters")] [SerializeField]
+    private BattleCharacter playerCharacter;
+
     [SerializeField] private BattleCharacter enemyCharacter;
 
-    [Header("Character Views")]
-    [SerializeField] private BattleCharacterView playerView;
+    [Header("Character Views")] [SerializeField]
+    private BattleCharacterView playerView;
+
     [SerializeField] private BattleCharacterView enemyView;
 
-    [Header("UI")]
-    [SerializeField] private Button startBattleButton;
+    [Header("UI")] [SerializeField] private Button startBattleButton;
     [SerializeField] private TextMeshProUGUI playerHPText;
     [SerializeField] private TextMeshProUGUI enemyHPText;
     [SerializeField] private TextMeshProUGUI battleLogText;
 
-    [Header("Damage Numbers")]
-    [SerializeField] private DamageNumberSpawner playerDamageSpawner;
-    [SerializeField] private DamageNumberSpawner enemyDamageSpawner;
+    [Header("Damage Numbers")] [SerializeField]
+    private DamageNumberSpawner playerDamageSpawner;
 
-    [Header("Settings")]
-    [SerializeField] private float attackDelay = 0.5f;
+    [SerializeField] private DamageNumberSpawner enemyDamageSpawner;
+    [SerializeField]  private EventIntentHandler eventIntentHandler;
+    [Header("Settings")] [SerializeField] private float attackDelay = 0.5f;
     [SerializeField] private float turnDelay = 1f;
     [SerializeField] private GameObject battlePanel;
+    
 
     private bool isPlayerTurn = true;
     private bool isBattleActive = false;
@@ -84,8 +87,12 @@ public class BattleController : MonoBehaviour
         StartBattle();
     }
 
-    public void InitializeBattle(BattleCharacterData playerData, BattleCharacterData enemyData)
+    private BattleCharacterData battleCharacterData;
+
+    public void InitializeBattle(BattleCharacterData playerData, BattleCharacterData enemyData,
+        Sprite enemySprite = null)
     {
+        battleCharacterData = enemyData;
         if (playerCharacter != null)
         {
             playerCharacter.Initialize(playerData.MaxHP, playerData.AttackDamage);
@@ -94,6 +101,11 @@ public class BattleController : MonoBehaviour
         if (enemyCharacter != null)
         {
             enemyCharacter.Initialize(enemyData.MaxHP, enemyData.AttackDamage);
+        }
+
+        if (enemySprite != null && enemyView != null)
+        {
+            enemyView.SetSprite(enemySprite);
         }
 
         UpdateUI();
@@ -213,6 +225,9 @@ public class BattleController : MonoBehaviour
 
     private void EndBattle(bool playerWon)
     {
+        eventIntentHandler.HandleIntent(playerWon
+            ? battleCharacterData.VictoryIntent
+            : battleCharacterData.DefeatIntent);
         isBattleActive = false;
 
         if (battlePanel != null)

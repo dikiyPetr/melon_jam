@@ -1,10 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using VContainer;
 
 public class EventIntentHandler : MonoBehaviour
 {
     [SerializeField] private BattleController _battleController;
     [Inject] private PlayerHolder _playerHolder;
+    [Inject] private DialogManager _dialogManager;
+    [Inject] private NodeEventManager _nodeEventManager;
 
     private void Awake()
     {
@@ -19,6 +22,18 @@ public class EventIntentHandler : MonoBehaviour
         {
             HandleBattleIntent(battleIntent);
         }
+        else if (intent is RandomLootIntent randomLootIntent)
+        {
+            StartCoroutine(HandleRandomLootIntent(randomLootIntent));
+        }
+        else if (intent is VictoryIntent victoryIntent)
+        {
+            HandleVictoryIntent(victoryIntent);
+        }
+        else if (intent is DefeatIntent defeatIntent)
+        {
+            HandleDefeatIntent(defeatIntent);
+        }
     }
 
     private void HandleBattleIntent(BattleIntent battleIntent)
@@ -28,24 +43,71 @@ public class EventIntentHandler : MonoBehaviour
         BattleCharacterData playerData = _playerHolder.GetBattleData();
         BattleCharacterData enemyData = new BattleCharacterData(battleIntent.EnemyMaxHP, battleIntent.EnemyAttack);
 
-        _battleController.InitializeBattle(playerData, enemyData);
+        _battleController.InitializeBattle(playerData, enemyData, battleIntent.EnemySprite);
 
-        _battleController.OnBattleEnded += OnBattleFinished;
 
         _battleController.StartBattle();
     }
 
-    private void OnBattleFinished(bool playerWon)
+    private void HandleVictoryIntent(VictoryIntent victoryIntent)
     {
-        if (_battleController != null)
-        {
-            _battleController.OnBattleEnded -= OnBattleFinished;
+        if (_dialogManager == null) return;
 
-            BattleCharacterData playerDataAfterBattle = _battleController.GetPlayerBattleDataAfterFight();
-            if (playerDataAfterBattle != null && _playerHolder != null)
+        StartCoroutine(ShowVictoryDialogWithDelay(victoryIntent));
+    }
+
+    private System.Collections.IEnumerator ShowVictoryDialogWithDelay(VictoryIntent victoryIntent)
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        System.Collections.Generic.List<DialogButtonData> buttons =
+            new System.Collections.Generic.List<DialogButtonData>
             {
-                _playerHolder.UpdateFromBattleData(playerDataAfterBattle);
-            }
-        }
+                new DialogButtonData("OK", () => { _dialogManager.HideDialog(); })
+            };
+
+        _dialogManager.ShowDialog(victoryIntent.Title, victoryIntent.Description, buttons, victoryIntent.Icon);
+    }
+
+    private void HandleDefeatIntent(DefeatIntent defeatIntent)
+    {
+        if (_dialogManager == null) return;
+
+        StartCoroutine(ShowDefeatDialogWithDelay(defeatIntent));
+    }
+
+    private System.Collections.IEnumerator ShowDefeatDialogWithDelay(DefeatIntent defeatIntent)
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        System.Collections.Generic.List<DialogButtonData> buttons =
+            new System.Collections.Generic.List<DialogButtonData>
+            {
+                new DialogButtonData("Начать заново", () =>
+                {
+                    _dialogManager.HideDialog();
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                })
+            };
+
+        _dialogManager.ShowDialog(defeatIntent.Title, defeatIntent.Description, buttons, defeatIntent.Icon);
+    }
+
+    private System.Collections.IEnumerator HandleRandomLootIntent(RandomLootIntent randomLootIntent)
+    {
+        if (_playerHolder == null || _dialogManager == null) yield break;
+
+        PlayerItem item = randomLootIntent.GetRandomItem();
+        if (item == null) yield break;
+
+        _playerHolder.AddItem(item);
+
+        System.Collections.Generic.List<DialogButtonData> buttons =
+            new System.Collections.Generic.List<DialogButtonData>
+            {
+                new DialogButtonData("OK", () => _dialogManager.HideDialog())
+            };
+        yield return new WaitForSeconds(1.5f);
+        _dialogManager.ShowDialog(item.Name, item.Description, buttons, item.Icon);
     }
 }
