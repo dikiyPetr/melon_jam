@@ -171,14 +171,14 @@ MonoBehaviour:
       IsOneTime: 0
   - NodeType: 7
     Events:
-    - EventName: 
-      EventText: boss
+    - EventName: Boss
+      EventText: Boss
       Icon: {fileID: 21300000, guid: 3faeba5e0d191f4438925f4a4b591e4a, type: 3}
       Choices:
-      - ButtonText: boss
+      - ButtonText: Fight
         Rewards:
         - RewardType: 0
           Amount: 0
-        Intent: {fileID: 0}
+        Intent: {fileID: 11400000, guid: b9f8a58892c50c848b6a71d6037d2804, type: 2}
         Condition: {fileID: 0}
       IsOneTime: 0

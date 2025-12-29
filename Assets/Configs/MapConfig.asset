@@ -47,6 +47,9 @@ MonoBehaviour:
   - LineType: 3
     NodeCount: 1
     HasGuaranteedConnections: 1
+  - LineType: 4
+    NodeCount: 1
+    HasGuaranteedConnections: 1
   CheckpointNodeTypes: 020000000400000006000000
   SelectableNodeTypes: 0200000003000000040000000500000006000000
   NodeTypeChoicesCount: 2
