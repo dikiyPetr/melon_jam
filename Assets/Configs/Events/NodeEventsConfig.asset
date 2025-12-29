@@ -98,8 +98,6 @@ MonoBehaviour:
         Rewards:
         - RewardType: 3
           Amount: 1
-        - RewardType: 5
-          Amount: 4
         Intent: {fileID: 0}
         Condition: {fileID: 11400000, guid: 256e074d2d0d3e1418a994d2e256d912, type: 2}
       - ButtonText: ...the finest sword
@@ -109,7 +107,7 @@ MonoBehaviour:
         - RewardType: 5
           Amount: 4
         Intent: {fileID: 0}
-        Condition: {fileID: 0}
+        Condition: {fileID: 11400000, guid: 256e074d2d0d3e1418a994d2e256d912, type: 2}
       IsOneTime: 0
   - NodeType: 3
     Events:
