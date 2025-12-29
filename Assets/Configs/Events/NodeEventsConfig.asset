@@ -118,7 +118,8 @@ MonoBehaviour:
         a couple of lessons to a novice adventurer...
       Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
       Choices:
-      - ButtonText: ...and the fighter agrees (Attack increased, Adventurism increased).
+      - ButtonText: ...and the fighter agrees (Attack increased, adventurousness
+          increased).
         Rewards:
         - RewardType: 2
           Amount: 0
