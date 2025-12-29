@@ -41,7 +41,7 @@ public class EventIntentHandler : MonoBehaviour
         if (_battleController == null || _playerHolder == null) return;
 
         BattleCharacterData playerData = _playerHolder.GetBattleData();
-        BattleCharacterData enemyData = new BattleCharacterData(battleIntent.EnemyMaxHP, battleIntent.EnemyAttack);
+        BattleCharacterData enemyData = new BattleCharacterData(battleIntent.EnemyMaxHP, battleIntent.EnemyAttack,battleIntent.VictoryIntent,battleIntent.DefeatIntent);
 
         _battleController.InitializeBattle(playerData, enemyData, battleIntent.EnemySprite);
 
@@ -58,15 +58,9 @@ public class EventIntentHandler : MonoBehaviour
 
     private System.Collections.IEnumerator ShowVictoryDialogWithDelay(VictoryIntent victoryIntent)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.1f);
 
-        System.Collections.Generic.List<DialogButtonData> buttons =
-            new System.Collections.Generic.List<DialogButtonData>
-            {
-                new DialogButtonData("OK", () => { _dialogManager.HideDialog(); })
-            };
-
-        _dialogManager.ShowDialog(victoryIntent.Title, victoryIntent.Description, buttons, victoryIntent.Icon);
+        _nodeEventManager.ShowEvent(victoryIntent.Event);
     }
 
     private void HandleDefeatIntent(DefeatIntent defeatIntent)
@@ -78,12 +72,12 @@ public class EventIntentHandler : MonoBehaviour
 
     private System.Collections.IEnumerator ShowDefeatDialogWithDelay(DefeatIntent defeatIntent)
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.1f);
 
         System.Collections.Generic.List<DialogButtonData> buttons =
             new System.Collections.Generic.List<DialogButtonData>
             {
-                new DialogButtonData("Начать заново", () =>
+                new DialogButtonData("Again", () =>
                 {
                     _dialogManager.HideDialog();
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -107,7 +101,7 @@ public class EventIntentHandler : MonoBehaviour
             {
                 new DialogButtonData("OK", () => _dialogManager.HideDialog())
             };
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.1f);
         _dialogManager.ShowDialog(item.Name, item.Description, buttons, item.Icon);
     }
 }

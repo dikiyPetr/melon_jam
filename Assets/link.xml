@@ -1,0 +1,6 @@
+<linker>
+  <!-- Preserve all System.Collections.Generic to fix WebGL Dictionary/HashSet issues -->
+  <assembly fullname="mscorlib" preserve="all"/>
+  <assembly fullname="System.Core" preserve="all"/>
+  <assembly fullname="System" preserve="all"/>
+</linker>

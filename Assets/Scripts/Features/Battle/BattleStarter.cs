@@ -22,7 +22,7 @@ public class BattleStarter : MonoBehaviour
         if (battleController != null && _playerHolder != null)
         {
             BattleCharacterData playerData = _playerHolder.GetBattleData();
-            BattleCharacterData enemyData = new BattleCharacterData(enemyMaxHP, enemyAttack);
+            BattleCharacterData enemyData = new BattleCharacterData(enemyMaxHP, enemyAttack, null, null);
 
             battleController.InitializeBattle(playerData, enemyData);
 

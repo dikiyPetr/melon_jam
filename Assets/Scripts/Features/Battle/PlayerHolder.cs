@@ -20,7 +20,7 @@ public class PlayerHolder
 
     public BattleCharacterData GetBattleData()
     {
-        return new BattleCharacterData(CurrentHP, GetModifiedAttackDamage());
+        return new BattleCharacterData(CurrentHP, GetModifiedAttackDamage(),null,null);
     }
 
     public void UpdateFromBattleData(BattleCharacterData battleData)

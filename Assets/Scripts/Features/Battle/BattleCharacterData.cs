@@ -7,10 +7,13 @@ public class BattleCharacterData
     public int AttackDamage;
     public VictoryIntent VictoryIntent;
     public DefeatIntent DefeatIntent;
-    
-    public BattleCharacterData(int maxHP, int attackDamage)
+
+    public BattleCharacterData(int maxHP, int attackDamage, VictoryIntent victoryIntent,
+        DefeatIntent defeatIntent)
     {
         MaxHP = maxHP;
         AttackDamage = attackDamage;
+        VictoryIntent = victoryIntent;
+        DefeatIntent = defeatIntent;
     }
 }

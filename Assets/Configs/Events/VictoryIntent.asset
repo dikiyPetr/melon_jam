@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78b99a153c1a4874bb15922583cd895f, type: 3}
   m_Name: VictoryIntent
   m_EditorClassIdentifier: Assembly-CSharp::VictoryIntent
-  Title: Victory
-  Description: '-'
-  Icon: {fileID: 0}
+  Event:
+    EventName: Victory
+    EventText: +gold
+    Icon: {fileID: 21300000, guid: c365e5dccffc99c45bd97cfc9c007137, type: 3}
+    Choices:
+    - ButtonText: +gold
+      Rewards:
+      - RewardType: 5
+        Amount: 1
+      Intent: {fileID: 0}
+      Condition: {fileID: 0}
+    IsOneTime: 0

@@ -26,11 +26,11 @@ public class BattleController : MonoBehaviour
     private DamageNumberSpawner playerDamageSpawner;
 
     [SerializeField] private DamageNumberSpawner enemyDamageSpawner;
-    [SerializeField]  private EventIntentHandler eventIntentHandler;
+    [SerializeField] private EventIntentHandler eventIntentHandler;
     [Header("Settings")] [SerializeField] private float attackDelay = 0.5f;
     [SerializeField] private float turnDelay = 1f;
     [SerializeField] private GameObject battlePanel;
-    
+    [Inject] private PlayerHolder playerHolder;
 
     private bool isPlayerTurn = true;
     private bool isBattleActive = false;
@@ -39,6 +39,7 @@ public class BattleController : MonoBehaviour
 
     private void Awake()
     {
+        DI.Inject(this);
         if (startBattleButton != null)
         {
             startBattleButton.onClick.AddListener(OnStartBattleButtonClicked);
@@ -115,7 +116,7 @@ public class BattleController : MonoBehaviour
     {
         if (playerCharacter != null)
         {
-            return new BattleCharacterData(playerCharacter.CurrentHP, playerCharacter.AttackDamage);
+            return new BattleCharacterData(playerCharacter.CurrentHP, playerCharacter.AttackDamage, null, null);
         }
 
         return null;
@@ -225,6 +226,7 @@ public class BattleController : MonoBehaviour
 
     private void EndBattle(bool playerWon)
     {
+        playerHolder.UpdateCurrentHP(playerCharacter.CurrentHP);
         eventIntentHandler.HandleIntent(playerWon
             ? battleCharacterData.VictoryIntent
             : battleCharacterData.DefeatIntent);
