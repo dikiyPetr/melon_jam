@@ -20,7 +20,7 @@ public class PlayerHolder
 
     public BattleCharacterData GetBattleData()
     {
-        return new BattleCharacterData(CurrentHP, GetModifiedAttackDamage(),null,null);
+        return new BattleCharacterData(CurrentHP, GetModifiedAttackDamage(), null, null);
     }
 
     public void UpdateFromBattleData(BattleCharacterData battleData)
@@ -69,6 +69,7 @@ public class PlayerHolder
         {
             modifiedAttack = item.ModifyAttackDamage(modifiedAttack);
         }
+
         return (int)modifiedAttack;
     }
 
@@ -79,6 +80,15 @@ public class PlayerHolder
         {
             modifiedGold = item.ModifyGoldReward(modifiedGold);
         }
+
         return (int)modifiedGold;
+    }
+
+    public void Reset()
+    {
+        MaxHP = 100;
+        CurrentHP = 100;
+        AttackDamage = 5;
+        Gold = 50;
     }
 }

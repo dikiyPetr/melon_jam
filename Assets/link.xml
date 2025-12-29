@@ -3,4 +3,10 @@
   <assembly fullname="mscorlib" preserve="all"/>
   <assembly fullname="System.Core" preserve="all"/>
   <assembly fullname="System" preserve="all"/>
+
+  <!-- Preserve custom equality comparers -->
+  <assembly fullname="Assembly-CSharp">
+    <type fullname="IntEqualityComparer" preserve="all"/>
+    <type fullname="StringEqualityComparer" preserve="all"/>
+  </assembly>
 </linker>

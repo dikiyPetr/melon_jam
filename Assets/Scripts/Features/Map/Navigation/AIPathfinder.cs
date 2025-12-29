@@ -24,7 +24,7 @@ public class AIPathfinder
 
     public HashSet<string> FindValidNextNodes(string currentNodeId, MapNodeType desiredNodeType)
     {
-        var validNodes = new HashSet<string>();
+        var validNodes = new HashSet<string>(StringEqualityComparer.Default);
         var currentNode = _mapData.GetNodeById(currentNodeId);
         if (currentNode == null) return validNodes;
 
@@ -48,14 +48,14 @@ public class AIPathfinder
 
     public HashSet<string> FindAllNodesLeadingToGoal(string currentNodeId, MapNodeType desiredNodeType)
     {
-        var nodesLeadingToGoal = new HashSet<string>();
+        var nodesLeadingToGoal = new HashSet<string>(StringEqualityComparer.Default);
         var currentNode = _mapData.GetNodeById(currentNodeId);
         if (currentNode == null) return nodesLeadingToGoal;
 
         var targetCheckpointNode = FindDesiredNodeInNextCheckpoint(currentNode, desiredNodeType);
         if (targetCheckpointNode == null) return nodesLeadingToGoal;
 
-        var visited = new HashSet<string>();
+        var visited = new HashSet<string>(StringEqualityComparer.Default);
         var queue = new Queue<string>();
         queue.Enqueue(currentNodeId);
 
@@ -115,7 +115,7 @@ public class AIPathfinder
     private List<string> BuildPath(MapNodeData startNode, MapNodeData targetNode)
     {
         var path = new List<string>();
-        var visited = new HashSet<string>();
+        var visited = new HashSet<string>(StringEqualityComparer.Default);
         var queue = new Queue<List<string>>();
 
         queue.Enqueue(new List<string> { startNode.Id });

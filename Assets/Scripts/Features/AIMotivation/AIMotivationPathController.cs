@@ -20,8 +20,8 @@ public class AIMotivationPathController : MonoBehaviour
     {
         DI.Inject(this);
         _currentPath = new List<string>();
-        _validNextNodes = new HashSet<string>();
-        _nodesLeadingToGoal = new HashSet<string>();
+        _validNextNodes = new HashSet<string>(StringEqualityComparer.Default);
+        _nodesLeadingToGoal = new HashSet<string>(StringEqualityComparer.Default);
     }
 
     public void Initialize(MapData mapData)

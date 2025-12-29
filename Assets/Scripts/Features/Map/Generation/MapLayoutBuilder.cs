@@ -11,7 +11,7 @@ public class MapLayoutBuilder
     public MapLayoutBuilder(MapConfig config)
     {
         _config = config;
-        _rows = new Dictionary<int, MapRowData>();
+        _rows = new Dictionary<int, MapRowData>(IntEqualityComparer.Default);
         _currentRow = 0;
         _connectionBuilder = new MapConnectionBuilder(config);
     }

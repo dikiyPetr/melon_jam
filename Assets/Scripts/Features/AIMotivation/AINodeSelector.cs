@@ -83,7 +83,7 @@ public class AINodeSelector
 
     public HashSet<string> GetSelectableNodes(HashSet<string> validNextNodes)
     {
-        var selectableNodes = new HashSet<string>();
+        var selectableNodes = new HashSet<string>(StringEqualityComparer.Default);
 
         if (validNextNodes == null || validNextNodes.Count == 0)
         {

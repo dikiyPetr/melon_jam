@@ -42,8 +42,8 @@ public class MapView : MonoBehaviour
     {
         DI.Inject(this);
 
-        _nodeViews = new Dictionary<string, MapNodeView>();
-        _nodePositions = new Dictionary<string, Vector3>();
+        _nodeViews = new Dictionary<string, MapNodeView>(StringEqualityComparer.Default);
+        _nodePositions = new Dictionary<string, Vector3>(StringEqualityComparer.Default);
         _connectionViews = new List<MapConnectionView>();
 
         _mapGenerator = GetComponent<MapGenerator>();

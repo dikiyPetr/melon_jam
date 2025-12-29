@@ -10,7 +10,7 @@ public class MapRowData
     {
         RowIndex = rowIndex;
         RowType = rowType;
-        Nodes = new Dictionary<int, MapNodeData>();
+        Nodes = new Dictionary<int, MapNodeData>(IntEqualityComparer.Default);
     }
 
     public void AddNode(int columnIndex, MapNodeData node)

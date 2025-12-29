@@ -13,16 +13,16 @@ public class NodeEventManager : MonoBehaviour
     [Inject] private AIMotivationData _motivationData;
     [Inject] private PlayerHolder _playerHolder;
 
-    private Dictionary<int, List<NodeEvent>> _availableEvents;
-    private HashSet<NodeEvent> _usedEvents;
+    private List<NodeTypeEventPool> _availableEvents;
+    private List<NodeEvent> _usedEvents;
 
     public event Action<NodeEvent> OnEventTriggered;
 
     private void Awake()
     {
         DI.Inject(this);
-        _availableEvents = new Dictionary<int, List<NodeEvent>>();
-        _usedEvents = new HashSet<NodeEvent>();
+        _availableEvents = new List<NodeTypeEventPool>();
+        _usedEvents = new List<NodeEvent>();
     }
 
     public void Initialize()
@@ -37,20 +37,24 @@ public class NodeEventManager : MonoBehaviour
             var events = _eventsConfig.GetEventsForNodeType(nodeType);
             if (events.Count > 0)
             {
-                _availableEvents[(int)nodeType] = new List<NodeEvent>(events);
+                _availableEvents.Add(new NodeTypeEventPool
+                {
+                    NodeType = nodeType,
+                    Events = new List<NodeEvent>(events)
+                });
             }
         }
     }
 
     public NodeEvent GetEventForNode(MapNodeType nodeType)
     {
-        int key = (int)nodeType;
-        if (!_availableEvents.ContainsKey(key) || _availableEvents[key].Count == 0)
+        var eventPool = _availableEvents.Find(pool => pool.NodeType == nodeType);
+        if (eventPool == null || eventPool.Events.Count == 0)
         {
             return null;
         }
 
-        var unusedEvents = _availableEvents[key].FindAll(e => !_usedEvents.Contains(e));
+        var unusedEvents = eventPool.Events.FindAll(e => !_usedEvents.Contains(e));
 
         if (unusedEvents.Count == 0)
         {

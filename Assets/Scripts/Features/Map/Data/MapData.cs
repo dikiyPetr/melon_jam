@@ -1,12 +1,29 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Map/Map Data", fileName = "MapData")]
 public class MapData : ScriptableObject
 {
-    public Dictionary<int, MapRowData> Rows = new Dictionary<int, MapRowData>();
+    [NonSerialized]
+    public Dictionary<int, MapRowData> Rows;
+
     public string CurrentNodeId;
-    public HashSet<string> VisitedNodeIds = new HashSet<string>();
+
+    [NonSerialized]
+    public HashSet<string> VisitedNodeIds;
+
+    private void OnEnable()
+    {
+        if (Rows == null)
+        {
+            Rows = new Dictionary<int, MapRowData>(IntEqualityComparer.Default);
+        }
+        if (VisitedNodeIds == null)
+        {
+            VisitedNodeIds = new HashSet<string>(StringEqualityComparer.Default);
+        }
+    }
 
     public List<MapNodeData> Nodes
     {
@@ -17,6 +34,7 @@ public class MapData : ScriptableObject
             {
                 allNodes.AddRange(row.GetAllNodes());
             }
+
             return allNodes;
         }
     }
@@ -31,6 +49,7 @@ public class MapData : ScriptableObject
                     return node;
             }
         }
+
         return null;
     }
 

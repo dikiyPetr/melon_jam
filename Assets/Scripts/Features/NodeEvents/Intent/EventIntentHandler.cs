@@ -80,6 +80,7 @@ public class EventIntentHandler : MonoBehaviour
                 new DialogButtonData("Again", () =>
                 {
                     _dialogManager.HideDialog();
+                    _playerHolder.Reset();
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 })
             };
